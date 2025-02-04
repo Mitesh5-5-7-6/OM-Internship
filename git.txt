@@ -52,8 +52,17 @@ gitignore generator is pre define ignore file
 
 git branch : show all branch
 git branch branchname : create a new branch
+git branch -d branchname : delete branch
 git switch branchname and git checkout : switch branch
 git checkout -b branchname , git switch -c branchname  (create a branch and move there)
 -> commit a branch after switch to another branch
 
 git merge
+
+is fast-forward merge : Clean history, no extra commits - No record of when the branch was merged
+git switch master
+git merge branchName
+
+not fast-forward merge : Preserves merge history, useful for tracking - More commits in history
+git merge --no-ff feature-branch
+git hello
