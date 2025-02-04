@@ -34,6 +34,7 @@ git commit -m "Add text1"
 git commit -m "Add text2"
 git commit -m "Add text3"
 
+
 git log : 40 digit ID
 git log --oneline : 7 digit ID
 
