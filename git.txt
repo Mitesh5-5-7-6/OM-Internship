@@ -38,9 +38,22 @@ git commit -m "Add text3"
 git log : 40 digit ID
 git log --oneline : 7 digit ID
 
+
+git log : 40 digit ID
+git log --oneline : 7 digit ID
+
 git remote add origin repo-url
 after git commit set git config global user.name and user.email
 
 
 gitignore in write fill, folder is not add in staging area
 gitignore generator is pre define ignore file
+gitignore generator is pre define ignore file
+
+git branch : show all branch
+git branch branchname : create a new branch
+git switch branchname and git checkout : switch branch
+git checkout -b branchname , git switch -c branchname  (create a branch and move there)
+-> commit a branch after switch to another branch
+
+git merge
