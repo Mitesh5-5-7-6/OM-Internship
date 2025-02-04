@@ -1,0 +1,20 @@
+Git - version control system, track change file.
+Git and Github are different. git is software and github is service provide
+
+Why use git : It allows multiple developers to work on the same codebase.
+It enables tracking of modifications, collaboration, and maintaining a history of your project.
+
+Git Repository (Repo) : git repo is storage loaction for your project's code, documation or other file.
+
+Git Init : git init command is initialize a new, empty repo. ---> git init
+
+
+
+Working Directory → git add file1 file2 || git add . → Staging Area → git commit → Repository → git push —→ Github
+working Directory : you work in this branch or file
+git add file : adds changes in the working directory to the staging area
+    git add filename    # add a separate file
+    git add .           # adds all files
+    git add *.js        # adds all JavaScript files
+Staging area : staging area in code are stage ( not unstage or not commited ).
+git commit : git commit -m "your message"   --> this file which use
