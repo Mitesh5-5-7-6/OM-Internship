@@ -33,3 +33,4 @@ git commit -m "Add password reset functionality"
 
 git log : 40 digit ID
 git log --oneline : 7 digit ID
+
