@@ -16,21 +16,30 @@ git add file : adds changes in the working directory to the staging area
     git add filename    --> add a separate file
     git add .           --> adds all files
     git add *.js        --> adds all JavaScript files
+
     git reset           --> stage file to unstage files
     git reset filename
+    git restore --staged gitTwo.txt
+
 Staging area : staging area in code are stage ( not unstage or not commited ).
 git commit : git commit -m "your message"   --> this file which use
 
 git atomic commit :
 
 # Instead of one large commit:
-git commit -m "Add user authentication, email validation, and password reset"
+git commit -m "Add text1, Add text2, and add text3"
 
 # Use atomic commits:
-git commit -m "Add basic user authentication system"
-git commit -m "Implement email validation logic"
-git commit -m "Add password reset functionality"
+git commit -m "Add text1"
+git commit -m "Add text2"
+git commit -m "Add text3"
 
 git log : 40 digit ID
 git log --oneline : 7 digit ID
 
+git remote add origin repo-url
+after git commit set git config global user.name and user.email
+
+
+gitignore in write fill, folder is not add in staging area
+gitignore generator is pre define ignore file
