@@ -105,3 +105,7 @@ my shortform in git --> git init  -> master branch
 make a new branch mitesh in write your code after git add . and git commit -m "and commit message"
 so your current mitesh branch are head and master branch behind then checkout master branch and pull
 add README fille -> echo "# learn-git" >> README.md
+
+git fetch only get the info but not merge code.
+git pull = git fetch + merge
+git pull origin main
