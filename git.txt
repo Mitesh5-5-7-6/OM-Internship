@@ -78,3 +78,5 @@ git stash : git stash command temp. save changes that are not ready for commit, 
 git stash
 git stash pop
 git stash push -m "WIP: fixing authentication bug"
+
+git commit -am "new commit command"
