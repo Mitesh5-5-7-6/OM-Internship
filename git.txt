@@ -89,3 +89,9 @@ Continue After Resolving Conflicts
 git status  # Check conflicting files
 git add resolved-file.txt  # Stage resolved files
 git rebase --continue  # Continue rebasing
+
+
+my shortform in git --> git init  -> master branch
+make a new branch mitesh in write your code after git add . and git commit -m "and commit message"
+so your current mitesh branch are head and master branch behind then checkout master branch and pull
+
