@@ -95,6 +95,12 @@ NEVER rebase a branch that has already been pushed to a shared repository!
 Only rebase local branches that haven’t been shared yet.
 
 
+git remote -v
+git remote add url
+git remote add origin https://..
+git remote rename oldname newname
+git remote remove name
+
 my shortform in git --> git init  -> master branch
 make a new branch mitesh in write your code after git add . and git commit -m "and commit message"
 so your current mitesh branch are head and master branch behind then checkout master branch and pull
