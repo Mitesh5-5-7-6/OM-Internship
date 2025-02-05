@@ -65,5 +65,4 @@ git merge branchName
 
 not fast-forward merge : Preserves merge history, useful for tracking - More commits in history
 git merge --no-ff feature-branch
-git hello
-git not-fast-forward commit
+git merge --squash feature-branch
