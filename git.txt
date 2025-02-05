@@ -52,6 +52,7 @@ gitignore generator is pre define ignore file
 
 git branch : show all branch
 git branch branchname : create a new branch
+git branch -M branchName : rename a branch name
 git branch -d branchname : delete branch
 git switch branchname and git checkout : switch branch
 git checkout -b branchname , git switch -c branchname  (create a branch and move there)
@@ -90,8 +91,21 @@ git status  # Check conflicting files
 git add resolved-file.txt  # Stage resolved files
 git rebase --continue  # Continue rebasing
 
+NEVER rebase a branch that has already been pushed to a shared repository!
+Only rebase local branches that haven’t been shared yet.
+
+
+git remote -v
+git remote add url
+git remote add origin https://..
+git remote rename oldname newname
+git remote remove name
 
 my shortform in git --> git init  -> master branch
 make a new branch mitesh in write your code after git add . and git commit -m "and commit message"
 so your current mitesh branch are head and master branch behind then checkout master branch and pull
+add README fille -> echo "# learn-git" >> README.md
 
+git fetch only get the info but not merge code.
+git pull = git fetch + merge
+git pull origin main
