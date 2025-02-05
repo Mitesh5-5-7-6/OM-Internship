@@ -78,3 +78,20 @@ git stash : git stash command temp. save changes that are not ready for commit, 
 git stash
 git stash pop
 git stash push -m "WIP: fixing authentication bug"
+
+git commit -am "new commit command"    -> add file and commit
+
+git rebase : git rebase branchName
+Rebase working Branch to Main branch
+some time show error then git add/rm <conflict_file>, then run git rebase --continue
+
+Continue After Resolving Conflicts
+git status  # Check conflicting files
+git add resolved-file.txt  # Stage resolved files
+git rebase --continue  # Continue rebasing
+
+
+my shortform in git --> git init  -> master branch
+make a new branch mitesh in write your code after git add . and git commit -m "and commit message"
+so your current mitesh branch are head and master branch behind then checkout master branch and pull
+
