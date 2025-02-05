@@ -1,0 +1,111 @@
+Git - version control system, track change file.
+Git and Github are different. git is software and github is service provide
+
+Why use git : It allows multiple developers to work on the same codebase.
+It enables tracking of modifications, collaboration, and maintaining a history of your project.
+
+Git Repository (Repo) : git repo is storage loaction for your project's code, documation or other file.
+
+Git Init : git init command is initialize a new, empty repo. ---> git init
+
+
+
+Working Directory → git add file1 file2 || git add . → Staging Area → git commit → Repository → git push —→ Github
+working Directory : you work in this branch or file
+git add file : adds changes in the working directory to the staging area
+    git add filename    --> add a separate file
+    git add .           --> adds all files
+    git add *.js        --> adds all JavaScript files
+
+    git reset           --> stage file to unstage files
+    git reset filename
+    git restore --staged gitTwo.txt
+
+Staging area : staging area in code are stage ( not unstage or not commited ).
+git commit : git commit -m "your message"   --> this file which use
+
+git atomic commit :
+
+# Instead of one large commit:
+git commit -m "Add text1, Add text2, and add text3"
+
+# Use atomic commits:
+git commit -m "Add text1"
+git commit -m "Add text2"
+git commit -m "Add text3"
+
+
+git log : 40 digit ID
+git log --oneline : 7 digit ID
+
+
+git log : 40 digit ID
+git log --oneline : 7 digit ID
+
+git remote add origin repo-url
+after git commit set git config global user.name and user.email
+
+
+gitignore in write fill, folder is not add in staging area
+gitignore generator is pre define ignore file
+gitignore generator is pre define ignore file
+
+git branch : show all branch
+git branch branchname : create a new branch
+git branch -M branchName : rename a branch name
+git branch -d branchname : delete branch
+git switch branchname and git checkout : switch branch
+git checkout -b branchname , git switch -c branchname  (create a branch and move there)
+-> commit a branch after switch to another branch
+
+git merge
+
+is fast-forward merge : Clean history, no extra commits - No record of when the branch was merged
+git switch master
+git merge branchName
+
+not fast-forward merge : Preserves merge history, useful for tracking - More commits in history
+git merge --no-ff feature-branch
+git merge --squash feature-branch
+
+git Diff command is use to show difference between working file and staging file
+git diff   -> show diff
+git diff --staged   -> differences between staged changes and the last commit.
+git diff commit1 commit2     -> diff commit1 to commit2
+git diff branch1 branch2    -> diff branch1 to branch2
+git diff origin/main main    -> diff local Branch with Remote Branch
+
+git stash : git stash command temp. save changes that are not ready for commit, allowing you switch another branch
+git stash
+git stash pop
+git stash push -m "WIP: fixing authentication bug"
+
+git commit -am "new commit command"    -> add file and commit
+
+git rebase : git rebase branchName
+Rebase working Branch to Main branch
+some time show error then git add/rm <conflict_file>, then run git rebase --continue
+
+Continue After Resolving Conflicts
+git status  # Check conflicting files
+git add resolved-file.txt  # Stage resolved files
+git rebase --continue  # Continue rebasing
+
+NEVER rebase a branch that has already been pushed to a shared repository!
+Only rebase local branches that haven’t been shared yet.
+
+
+git remote -v
+git remote add url
+git remote add origin https://..
+git remote rename oldname newname
+git remote remove name
+
+my shortform in git --> git init  -> master branch
+make a new branch mitesh in write your code after git add . and git commit -m "and commit message"
+so your current mitesh branch are head and master branch behind then checkout master branch and pull
+add README fille -> echo "# learn-git" >> README.md
+
+git fetch only get the info but not merge code.
+git pull = git fetch + merge
+git pull origin main
