@@ -1,2 +1,6 @@
 .env
 node_modules/
+gitLearn
+gitLearn.pub
+package-lock.json
+package.json
