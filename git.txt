@@ -66,3 +66,15 @@ git merge branchName
 not fast-forward merge : Preserves merge history, useful for tracking - More commits in history
 git merge --no-ff feature-branch
 git merge --squash feature-branch
+
+git Diff command is use to show difference between working file and staging file
+git diff   -> show diff
+git diff --staged   -> differences between staged changes and the last commit.
+git diff commit1 commit2     -> diff commit1 to commit2
+git diff branch1 branch2    -> diff branch1 to branch2
+git diff origin/main main    -> diff local Branch with Remote Branch
+
+git stash : git stash command temp. save changes that are not ready for commit, allowing you switch another branch
+git stash
+git stash pop
+git stash push -m "WIP: fixing authentication bug"
