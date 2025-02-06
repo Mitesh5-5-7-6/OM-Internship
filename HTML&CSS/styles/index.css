@@ -1,0 +1,12 @@
+body {
+    margin: 20px;
+    padding: 0;
+    font-family: "Leckerli One", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: xx-large;
+}
+
+p {
+    color: rgb(72, 123, 123);
+}

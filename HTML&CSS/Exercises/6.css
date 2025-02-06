@@ -1,0 +1,13 @@
+body {
+    font-family: "Montserrat", serif;
+}
+
+.model {
+    font-weight: bold;
+    font-size: larger;
+    text-align: center;
+}
+
+.model-text {
+    text-align: center;
+}

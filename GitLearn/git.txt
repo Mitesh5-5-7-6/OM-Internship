@@ -109,3 +109,7 @@ add README fille -> echo "# learn-git" >> README.md
 git fetch only get the info but not merge code.
 git pull = git fetch + merge
 git pull origin main
+
+force push
+git pull --rebase
+git push --force-with-lease
