@@ -1,0 +1,65 @@
+<style>
+  /* :hover, :active are sudo-class */
+
+  .sub_btn {
+    background-color: #37823b;
+    color: white;
+    /* top left bottom right */
+    /* padding: 15px 20px; */
+    width: 100px;
+    height: 35px;
+    border: 2px solid #1a2a1a;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: opacity 0.3s;
+  }
+  .sub_btn:hover {
+    background-color: #45a049;
+    /* opacity work 0 to 1; */
+    opacity: 0.8;
+  }
+  .sub_btn:active {
+    background-color: aqua;
+  }
+
+  .join_btn {
+    background-color: white;
+    color: #4c76a2;
+    /* top left bottom right */
+    padding: 15px 20px;
+    /* border-width style color */
+    border: 2px solid #4c76a2;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 1s;
+  }
+  .join_btn:hover {
+    background-color: #4c76a2;
+    color: whitesmoke;
+  }
+
+  .tweet_btn {
+    background-color: #55acee;
+    color: white;
+    padding: 15px 20px;
+    border: 2px solid #55acee;
+    cursor: pointer;
+    border-radius: 18px;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.6s, box-shadow 0.5s;
+  }
+  .tweet_btn:hover {
+    /* left bottom color-(blur) */
+    box-shadow: 2px 3px 10px rgba(0, 0, 0, 0.5);
+    background-color: #2795e9;
+  }
+</style>
+
+<button class="sub_btn">Subscribe</button>
+
+<button class="join_btn">Join</button>
+
+<button class="tweet_btn">Tweet</button>

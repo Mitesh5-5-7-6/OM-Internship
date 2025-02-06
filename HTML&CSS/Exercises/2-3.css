@@ -1,0 +1,149 @@
+button {
+    font-family: cursive;
+    text-align: center;
+}
+
+.uber {
+    background-color: #09091a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    transition: opacity 0.3s;
+    margin-bottom: 10px;
+}
+
+.uber:hover {
+    opacity: 0.9;
+}
+
+.amazon {
+    background-color: #ff9900;
+    color: white;
+    border: none;
+    padding: 10px 40px;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+}
+
+.amazon:hover {
+    background-color: #f8ab36;
+}
+
+.github {
+    background-color: #298803;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+    transition: box-shadow 0.3s;
+}
+
+.github:hover {
+    /* right bottom shadow-effect all-side-shadow-effect */
+    box-shadow: 2px 2px 10px 0px black;
+}
+
+.bootstap {
+    background-color: #563d7c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+    margin-right: 5px;
+}
+
+.bootstap:hover {
+    background-color: #6c4f9e;
+}
+
+.bootstap-download {
+    background-color: white;
+    color: #563d7c;
+    border: 2px solid #563d7c;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    margin-bottom: 10px;
+}
+
+.bootstap-download:hover {
+    background-color: #563d7c;
+    color: white;
+}
+
+.linkedin {
+    background-color: #0077b5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+    margin-right: 5px;
+}
+
+.linkedin:hover {
+    background-color: #0a66c2;
+}
+
+.linkedin-save {
+    background-color: white;
+    color: #0077b5;
+    border: 2px solid #0077b5;
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+}
+
+.linkedin-save:hover {
+    background-color: #b0c7d4;
+    border-width: 3px;
+    font-weight: bold;
+}
+
+.amazon-link:hover {
+    color: red;
+}
+
+.add-cart {
+    background-color: #ecae51;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+    margin-right: 5px;
+}
+
+.add-cart:hover {
+    background-color: #b98941;
+}
+
+.add-cart:active {
+    opacity: 0.8;
+}
+
+.buy-now {
+    background-color: #bb7000;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+}
+
+.buy-now:hover {
+    background-color: #ff9900;
+}
+
+.buy-now:active {
+    opacity: 0.8;
+}
