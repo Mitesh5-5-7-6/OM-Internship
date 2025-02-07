@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="margin-bottom: 500px">
+    <div style="display: flex; height: 200px; flex-direction: row">
+      <div style="background-color: lightblue">flex box</div>
+      <div style="background-color: lightpink">
+        div2
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolorem sint
+          officiis maxime? Dolorum quaerat laudantium similique quo enim
+          molestias nulla!
+        </p>
+      </div>
+    </div>
+
+    <div
+      style="
+        margin-top: 20px;
+        height: 200px;
+        display: flex;
+        flex-direction: row;
+      "
+    >
+      <div style="background-color: lightblue">flex box</div>
+      <div style="background-color: lightpink; flex: 1">
+        flex 1 = 1fr in grid
+      </div>
+      <div style="background-color: lightcoral; width: 100px">100px</div>
+      <div style="background-color: lightgray; flex: 2">flex 2 = 2fr</div>
+    </div>
+
+    <div
+      style="
+        margin-top: 50px;
+        height: 150px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        border: 1px solid black;
+      "
+    >
+      <div style="background-color: lightblue; width: 100px">100px</div>
+      <div style="background-color: lightpink; width: 100px">100px</div>
+      <div style="background-color: lightcoral; width: 100px">100px</div>
+    </div>
+    <div
+      style="
+        margin-top: 50px;
+        height: 150px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        border: 1px solid black;
+      "
+    >
+      <div style="background-color: lightblue; width: 100px">100px</div>
+      <div style="background-color: lightpink; width: 100px">100px</div>
+      <div style="background-color: lightcoral; width: 100px">100px</div>
+    </div>
+
+    <div
+      style="
+        margin-top: 50px;
+        height: 150px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        border: 1px solid black;
+      "
+    >
+      <div style="background-color: lightblue; width: 100px">100px</div>
+      <div style="background-color: lightpink; width: 100px">100px</div>
+      <div style="background-color: lightcoral; width: 100px">100px</div>
+    </div>
+  </body>
+</html>

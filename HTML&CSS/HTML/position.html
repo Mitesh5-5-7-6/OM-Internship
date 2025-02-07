@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Position</title>
+  </head>
+  <body style="padding-left: 50px; padding-top: 50px">
+    <div
+      style="
+        background-color: lightcoral;
+        color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+      "
+    >
+      fixed position is fixed placed in the browser window
+    </div>
+
+    <div
+      style="
+        background-color: lightsalmon;
+        position: fixed;
+        top: 50px;
+        left: 0;
+        bottom: 0;
+      "
+    >
+      Sidebar
+      <div
+        style="
+          position: absolute;
+          background-color: lightblue;
+          top: 0;
+          right: 0;
+        "
+      >
+        Absolute placed on the page
+      </div>
+    </div>
+
+    <div
+      style="
+        position: absolute;
+        background-color: lightblue;
+        left: 60px;
+        top: 50px;
+      "
+    >
+      Absolute placed on the page
+    </div>
+
+    <div
+      style="
+        background-color: rgb(246, 246, 166);
+        height: 200px;
+        width: 200px;
+        position: relative;
+        margin-top: 50px;
+      "
+    >
+      Div 2
+      <div
+        style="
+          position: absolute;
+          background-color: lightblue;
+          right: 10px;
+          top: 50px;
+        "
+      >
+        Absolute
+      </div>
+    </div>
+    <div
+      style="
+        background-color: lightblue;
+        height: 200px;
+        width: 200px;
+        position: static;
+      "
+    >
+      Static position is Default position
+    </div>
+  </body>
+</html>

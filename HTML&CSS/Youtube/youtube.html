@@ -1,44 +1,188 @@
 <!DOCTYPE html>
 <html>
-  <head></head>
-
-  <style>
-    .thumbnail {
-      width: 300px;
-      display: block;
-    }
-    .search-bar {
-      display: block;
-    }
-    .video-title {
-      width: 300px;
-    }
-    .video-preview {
-      width: 300px;
-      display: inline-block;
-      vertical-align: top;
-      margin-right: 10px;
-    }
-  </style>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&family=Leckerli+One&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./Styles/style.css" />
+    <link rel="stylesheet" href="./Styles/header.css" />
+    <link rel="stylesheet" href="./Styles/video.css" />
+    <link rel="stylesheet" href="./Styles/sidebar.css" />
+    <title>YouTube Clone</title>
+  </head>
   <body>
-    <input type="text" class="search-bar" placeholder="Search" />
-    <div class="video-preview">
-      <img class="thumbnail" src="./2024_10_001.jpg" />
-
-      <p class="video-title">
-        Talking Tech and <strong>AI with</strong> Google CEO Sunder Pichai!
-      </p>
-      <p class="video-author">Marques Brownlee</p>
-      <p class="video-stats">3.4M views . 6 months ago</p>
+    <div class="header">
+      <div class="left-section">
+        <img class="hamburger-menu" src="./assets/icons/icons8-menu-32.svg" />
+        <img class="youtube-logo" src="./assets/icons/youTubeLogo.webp" />
+      </div>
+      <div class="middle-section">
+        <input type="text" class="search-bar" placeholder="Search" />
+        <button class="search-btn">
+          <img class="search-icon" src="./assets/icons/icons8-search.gif" />
+          <div>Search</div>
+        </button>
+        <button class="voice-search-btn">
+          <img
+            class="voice-search-icon"
+            src="./assets/icons/icons8-voice-recorder.svg"
+          />
+        </button>
+      </div>
+      <div class="right-section">
+        <img class="upload-icon" src="./assets/icons/icons8-video-32.png" />
+        <img
+          class="apps-icon"
+          src="./assets/icons/icons8-circled-menu-64.png"
+        />
+        <div class="notification-icon-container">
+          <img
+            class="notification-icon"
+            src="./assets/icons/icons8-notification-bell.svg"
+          />
+          <div class="notification-count">23</div>
+        </div>
+        <img class="current-user-profile" src="./assets/images/2.jpg" />
+      </div>
     </div>
-    <div class="video-preview">
-      <img class="thumbnail" src="./2024_9.jpg" />
 
-      <p class="video-title">
-        Talking Tech and <strong>AI with</strong> Google CEO Sunder Pichai!
-      </p>
-      <p class="video-author">Marques Brownlee</p>
-      <p class="video-stats">3.4M views . 6 months ago</p>
+    <div class="sidebar">
+      <div class="sidebar-link">
+        <img src="./assets/icons/icons8-home-48.png" alt="" />
+        <div>Home</div>
+      </div>
+      <div class="sidebar-link">
+        <img src="./assets/icons/icons8-explore-48.png" alt="" />
+        <div>Explore</div>
+      </div>
+      <div class="sidebar-link">
+        <img src="./assets/icons/icons8-subscription-48.png" alt="" />
+        <div>Subscriptions</div>
+      </div>
+      <div class="sidebar-link">
+        <img src="./assets/icons/icons8-verified-badge-48.png" alt="" />
+        <div>Originals</div>
+      </div>
+      <div class="sidebar-link">
+        <img src="./assets/icons/icons8-music-48.png" alt="" />
+        <div>YT Music</div>
+      </div>
+      <div class="sidebar-link">
+        <img src="./assets/icons/icons8-library-48.png" alt="" />
+        <div>Library</div>
+      </div>
+    </div>
+
+    <div class="video-grid">
+      <div class="video-preview">
+        <div class="thumbnail-row">
+          <img class="thumbnail" src="./assets/images/2024_10_001.jpg" />
+          <div class="video-time">14:30</div>
+        </div>
+        <div class="video-info-grid">
+          <div class="channel-picture">
+            <img class="profile-picture" src="./assets/images/2.jpg" />
+          </div>
+          <div class="video-info">
+            <p class="video-title">
+              Talking Tech and <strong>AI with</strong> Google CEO Sunder
+              Pichai! Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              Tenetur, magnam?
+            </p>
+            <p class="video-author">Marques Brownlee</p>
+            <p class="video-stats">3.4M views . 6 months ago</p>
+          </div>
+        </div>
+      </div>
+      <div class="video-preview">
+        <div class="thumbnail-row">
+          <img class="thumbnail" src="./assets/images/2024_9.jpg" />
+          <div class="video-time">11:00</div>
+        </div>
+        <div class="video-info-grid">
+          <div class="channel-picture">
+            <img class="profile-picture" src="./assets/images/2.jpg" />
+          </div>
+          <div class="video-info">
+            <p class="video-title">Talking Tech and <strong>AI with</strong></p>
+            <p class="video-author">Marques Brownlee</p>
+            <p class="video-stats">3.4M views . 6 months ago</p>
+          </div>
+        </div>
+      </div>
+      <div class="video-preview">
+        <div class="thumbnail-row">
+          <img class="thumbnail" src="./assets/images/2024_10_001.jpg" />
+          <div class="video-time">19:12</div>
+        </div>
+        <div class="video-info-grid">
+          <div class="channel-picture">
+            <img class="profile-picture" src="./assets/images/2.jpg" />
+          </div>
+          <div class="video-info">
+            <p class="video-title">Talking Tech and <strong>AI with</strong></p>
+            <p class="video-author">Marques Brownlee</p>
+            <p class="video-stats">3.4M views . 6 months ago</p>
+          </div>
+        </div>
+      </div>
+      <div class="video-preview">
+        <div class="thumbnail-row">
+          <img class="thumbnail" src="./assets/images/2024_9.jpg" />
+          <div class="video-time">1:60</div>
+        </div>
+        <div class="video-info-grid">
+          <div class="channel-picture">
+            <img class="profile-picture" src="./assets/images/2.jpg" />
+          </div>
+          <div class="video-info">
+            <p class="video-title">Talking Tech and <strong>AI with</strong></p>
+            <p class="video-author">Marques Brownlee</p>
+            <p class="video-stats">3.4M views . 6 months ago</p>
+          </div>
+        </div>
+      </div>
+      <div class="video-preview">
+        <div class="thumbnail-row">
+          <img class="thumbnail" src="./assets/images/2024_10_001.jpg" />
+          <div class="video-time">17:00</div>
+        </div>
+        <div class="video-info-grid">
+          <div class="channel-picture">
+            <img class="profile-picture" src="./assets/images/2.jpg" />
+          </div>
+          <div class="video-info">
+            <p class="video-title">
+              Talking Tech and <strong>AI with</strong>Lorem ipsum dolor sit,
+              amet consectetur adipisicing elit. Deleniti, necessitatibus.
+            </p>
+            <p class="video-author">Marques Brownlee</p>
+            <p class="video-stats">3.4M views . 6 months ago</p>
+          </div>
+        </div>
+      </div>
+      <div class="video-preview">
+        <div class="thumbnail-row">
+          <img class="thumbnail" src="./assets/images/2024_9.jpg" />
+          <div class="video-time">21:00</div>
+        </div>
+        <div class="video-info-grid">
+          <div class="channel-picture">
+            <img class="profile-picture" src="./assets/images/2.jpg" />
+          </div>
+          <div class="video-info">
+            <p class="video-title">
+              Talking Tech and <strong>AI with</strong> Google CEO Sunder
+              Pichai!
+            </p>
+            <p class="video-author">Marques Brownlee</p>
+            <p class="video-stats">3.4M views . 6 months ago</p>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

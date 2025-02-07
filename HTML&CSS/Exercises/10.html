@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inset Box Shadow</title>
+    <style>
+      .box {
+        width: 400px;
+        height: 100px;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        font-family: cursive;
+        color: #333;
+        margin-bottom: 20px;
+        box-shadow: inset 5px 5px 15px rgba(0, 0, 0, 0.2),
+          inset -5px -5px 15px rgba(255, 255, 255, 0.5);
+      }
+      .img {
+        width: 100px;
+        margin-left: 10px;
+
+        img {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+        }
+      }
+      p {
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+      .text {
+        width: 200px;
+
+        .text-title {
+          font-size: large;
+          font-weight: bold;
+        }
+        .inner-text {
+          color: rgb(96, 96, 96);
+          font-weight: 500;
+          font-size: large;
+        }
+      }
+      .btn {
+        width: 100px;
+
+        button {
+          background-color: dodgerblue;
+          border: none;
+          color: #fff;
+          font-weight: bold;
+          border-radius: 6px;
+          padding: 10px 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="box">
+      <div class="img">
+        <img src="../Youtube/2024_10_001.jpg" alt="" />
+      </div>
+      <div class="text">
+        <p class="text-title">oliver</p>
+        <div class="inner-text">
+          <p>the cat</p>
+          <p>Popular</p>
+        </div>
+      </div>
+      <div class="btn">
+        <button class="follow-btn">Follow</button>
+      </div>
+    </div>
+    <div class="box">
+      <div class="img">
+        <img src="../Youtube/2024_10_001.jpg" alt="" />
+      </div>
+      <div class="text">
+        <p class="text-title">oliver</p>
+        <div class="inner-text">
+          <p>the cat</p>
+          <p>Popular</p>
+        </div>
+      </div>
+      <div class="btn">
+        <button class="follow-btn">Follow</button>
+      </div>
+    </div>
+    <div class="box">
+      <div class="img">
+        <img src="../Youtube/2024_10_001.jpg" alt="" />
+      </div>
+      <div class="text">
+        <p class="text-title">oliver</p>
+        <div class="inner-text">
+          <p>the cat</p>
+          <p>Popular</p>
+        </div>
+      </div>
+      <div class="btn">
+        <button class="follow-btn">Follow</button>
+      </div>
+    </div>
+  </body>
+</html>
