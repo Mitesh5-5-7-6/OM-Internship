@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Text Tabbed Form Filler</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-section {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .visualization-section {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+        }
+
+        button.stop {
+            background-color: #f44336;
+        }
+
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #e2e2e2;
+        }
+
+        .interim {
+            color: gray;
+            font-style: italic;
+        }
+
+        #transcriptBox {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .completion-bar {
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .completion-progress {
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .json-preview {
+            background-color: #2b2b2b;
+            color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow: auto;
+            max-height: 200px;
+        }
+
+        .highlight {
+            background-color: rgba(255, 255, 0, 0.3);
+            transition: background-color 0.5s;
+        }
+
+        /* Tab styles */
+        .tabs {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab-button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .tab-button:hover {
+            background-color: #ddd;
+        }
+
+        .tab-button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            animation: fadeEffect 1s;
+        }
+
+        @keyframes fadeEffect {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .tab-indicator {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .tab-progress {
+            flex: 1;
+            height: 6px;
+            background-color: #ddd;
+            margin: 0 5px;
+            border-radius: 3px;
+        }
+
+        .tab-progress.active {
+            background-color: #4CAF50;
+        }
+
+        .tab-progress.completed {
+            background-color: #2E8B57;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Speech to Text Tabbed Form Filler</h1>
+    <p>Speak naturally to fill out any field in any tab. The system will intelligently place your information in the
+        right fields.</p>
+
+    <div class="controls">
+        <button id="startBtn">Start Listening</button>
+        <button id="stopBtn" class="stop" disabled>Stop Listening</button>
+        <button id="resetBtn">Reset Form</button>
+        <button id="submitBtn">Submit Form</button>
+    </div>
+
+    <div class="status" id="status">Status: Ready to listen</div>
+    <div id="transcriptBox">
+        <p>Transcript will appear here...</p>
+        <p class="interim" id="interimText"></p>
+    </div>
+
+    <div class="tab-indicator">
+        <div class="tab-progress" id="tab1Progress"></div>
+        <div class="tab-progress" id="tab2Progress"></div>
+        <div class="tab-progress" id="tab3Progress"></div>
+    </div>
+
+    <div class="container">
+        <div class="form-section">
+            <div class="tabs">
+                <button class="tab-button active" onclick="openTab(event, 'basicDetails')">Basic Details</button>
+                <button class="tab-button" onclick="openTab(event, 'addressPreferences')">Address & Preferences</button>
+                <button class="tab-button" onclick="openTab(event, 'paymentDetails')">Payment Details</button>
+            </div>
+
+            <!-- Tab 1: Basic Details -->
+            <div id="basicDetails" class="tab-content" style="display: block;">
+                <h2>Personal Information</h2>
+
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+
+                <div class="form-group">
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob" name="dob">
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender">
+                        <option value="">Select gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                        <option value="prefer-not-to-say">Prefer not to say</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tab 2: Address & Preferences -->
+            <div id="addressPreferences" class="tab-content">
+                <h2>Address & Preferences</h2>
+
+                <div class="form-group">
+                    <label for="street">Street Address:</label>
+                    <input type="text" id="street" name="street">
+                </div>
+
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <input type="text" id="city" name="city">
+                </div>
+
+                <div class="form-group">
+                    <label for="state">State/Province:</label>
+                    <select id="state" name="state">
+                        <option value="">Select state</option>
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="NY">New York</option>
+                        <option value="TX">Texas</option>
+                        <option value="WA">Washington</option>
+                        <!-- Add more states as needed -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="zipcode">Zip/Postal Code:</label>
+                    <input type="text" id="zipcode" name="zipcode">
+                </div>
+
+                <div class="form-group">
+                    <label for="country">Country:</label>
+                    <select id="country" name="country">
+                        <option value="">Select country</option>
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="UK">United Kingdom</option>
+                        <option value="AU">Australia</option>
+                        <!-- Add more countries as needed -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactPreference">Preferred Contact Method:</label>
+                    <select id="contactPreference" name="contactPreference">
+                        <option value="">Select preference</option>
+                        <option value="email">Email</option>
+                        <option value="phone">Phone</option>
+                        <option value="text">Text Message</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tab 3: Payment Details -->
+            <div id="paymentDetails" class="tab-content">
+                <h2>Payment Information</h2>
+
+                <div class="form-group">
+                    <label for="cardType">Card Type:</label>
+                    <select id="cardType" name="cardType">
+                        <option value="">Select card type</option>
+                        <option value="visa">Visa</option>
+                        <option value="mastercard">MasterCard</option>
+                        <option value="amex">American Express</option>
+                        <option value="discover">Discover</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="cardName">Name on Card:</label>
+                    <input type="text" id="cardName" name="cardName">
+                </div>
+
+                <div class="form-group">
+                    <label for="cardNumber">Card Number:</label>
+                    <input type="text" id="cardNumber" name="cardNumber" maxlength="19"
+                        placeholder="XXXX XXXX XXXX XXXX">
+                </div>
+
+                <div class="form-group">
+                    <label for="expiryDate">Expiration Date:</label>
+                    <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY">
+                </div>
+
+                <div class="form-group">
+                    <label for="cvv">CVV:</label>
+                    <input type="text" id="cvv" name="cvv" maxlength="4">
+                </div>
+
+                <div class="form-group">
+                    <label for="billingAddress">Billing Address Same as Above:</label>
+                    <select id="billingAddress" name="billingAddress">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="visualization-section">
+            <h2>Live Data Visualization</h2>
+
+            <h3>Form Completion</h3>
+            <div class="completion-bar">
+                <div class="completion-progress" id="completionProgress"></div>
+            </div>
+            <div id="completionText">0% Complete</div>
+
+            <h3>Active Tab</h3>
+            <div id="activeTabIndicator">Tab 1: Basic Details</div>
+
+            <h3>Field Detection Confidence</h3>
+            <div id="detectionConfidence">Waiting for speech input...</div>
+
+            <h3>JSON Data Preview</h3>
+            <div class="json-preview" id="jsonPreview">{ }</div>
+        </div>
+    </div>
+
+    <script>
+        // Form fields and their corresponding keywords/phrases for speech recognition
+        try {
+            // ...existing openTab code...
+            const formFields = {
+                // Tab 1: Basic Details
+                'name': ['name', 'name is', 'my name is', 'call me', 'I am', 'myself'],
+                'email': ['email', 'email is', 'my email is', 'contact me at', 'reach me at', '@', 'mail', 'e-mail'],
+                'phone': ['phone', 'phone is', 'my phone is', 'phone number', 'my number is', 'call me at', 'telephone', 'mobile'],
+                'dob': ['birth', 'birthday', 'date of birth', 'born on', 'dob', 'born in'],
+                'gender': {
+                    'male': ['male', 'man', 'boy', 'gentleman', 'identify as male'],
+                    'female': ['female', 'woman', 'girl', 'lady', 'identify as female'],
+                    'other': ['other gender', 'non-binary', 'third gender'],
+                    'prefer-not-to-say': ['prefer not to say', 'rather not say', 'private', 'not disclosing']
+                },
+
+                // Tab 2: Address & Preferences
+                'street': ['street', 'address', 'live at', 'living at', 'residing at', 'residence', 'live on'],
+                'city': ['city', 'town', 'municipality', 'live in', 'reside in', 'located in'],
+                'state': {
+                    'AL': ['alabama', 'al'],
+                    'AK': ['alaska', 'ak'],
+                    'AZ': ['arizona', 'az'],
+                    'CA': ['california', 'ca'],
+                    'CO': ['colorado', 'co'],
+                    'FL': ['florida', 'fl'],
+                    'GA': ['georgia', 'ga'],
+                    'NY': ['new york', 'ny'],
+                    'TX': ['texas', 'tx'],
+                    'WA': ['washington', 'wa']
+                },
+                'zipcode': ['zip', 'zip code', 'postal code', 'post code', 'area code'],
+                'country': {
+                    'US': ['united states', 'usa', 'america', 'us', 'states'],
+                    'CA': ['canada', 'canadian'],
+                    'UK': ['united kingdom', 'britain', 'uk', 'england'],
+                    'AU': ['australia', 'aussie', 'au']
+                },
+                'contactPreference': {
+                    'email': ['prefer email', 'contact by email', 'email me', 'through email'],
+                    'phone': ['prefer phone', 'contact by phone', 'call me', 'by phone'],
+                    'text': ['prefer text', 'contact by text', 'text me', 'sms', 'message']
+                },
+
+                // Tab 3: Payment Details
+                'cardType': {
+                    'visa': ['visa', 'visa card'],
+                    'mastercard': ['mastercard', 'master card'],
+                    'amex': ['amex', 'american express'],
+                    'discover': ['discover', 'discover card']
+                },
+                'cardName': ['card name', 'name on card', 'cardholder', 'card holder'],
+                'cardNumber': ['card number', 'credit card number', 'card no', 'card #', 'account number'],
+                'expiryDate': ['expiry', 'expiration', 'expires', 'exp date', 'valid until'],
+                'cvv': ['cvv', 'security code', 'verification code', 'security number', 'cvc', 'card verification'],
+                'billingAddress': {
+                    'yes': ['billing same', 'same address', 'same billing', 'billing address same'],
+                    'no': ['different billing', 'billing different', 'not same address']
+                }
+            };
+
+            // DOM elements
+            const startBtn = document.getElementById('startBtn');
+            const stopBtn = document.getElementById('stopBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            const status = document.getElementById('status');
+            const transcriptBox = document.getElementById('transcriptBox');
+            const interimText = document.getElementById('interimText');
+            const completionProgress = document.getElementById('completionProgress');
+            const completionText = document.getElementById('completionText');
+            const jsonPreview = document.getElementById('jsonPreview');
+            const activeTabIndicator = document.getElementById('activeTabIndicator');
+            const detectionConfidence = document.getElementById('detectionConfidence');
+            const tab1Progress = document.getElementById('tab1Progress');
+            const tab2Progress = document.getElementById('tab2Progress');
+            const tab3Progress = document.getElementById('tab3Progress');
+
+            // Form element references
+            const formElements = {
+                // Tab 1: Basic Details
+                name: document.getElementById('name'),
+                email: document.getElementById('email'),
+                phone: document.getElementById('phone'),
+                dob: document.getElementById('dob'),
+                gender: document.getElementById('gender'),
+
+                // Tab 2: Address & Preferences
+                street: document.getElementById('street'),
+                city: document.getElementById('city'),
+                state: document.getElementById('state'),
+                zipcode: document.getElementById('zipcode'),
+                country: document.getElementById('country'),
+                contactPreference: document.getElementById('contactPreference'),
+
+                // Tab 3: Payment Details
+                cardType: document.getElementById('cardType'),
+                cardName: document.getElementById('cardName'),
+                cardNumber: document.getElementById('cardNumber'),
+                expiryDate: document.getElementById('expiryDate'),
+                cvv: document.getElementById('cvv'),
+                billingAddress: document.getElementById('billingAddress')
+            };
+
+            // Field to tab mapping
+            const fieldToTab = {
+                // Tab 1
+                'name': 1, 'email': 1, 'phone': 1, 'dob': 1, 'gender': 1,
+                // Tab 2
+                'street': 2, 'city': 2, 'state': 2, 'zipcode': 2, 'country': 2, 'contactPreference': 2,
+                // Tab 3
+                'cardType': 3, 'cardName': 3, 'cardNumber': 3, 'expiryDate': 3, 'cvv': 3, 'billingAddress': 3
+            };
+
+            // Tab completion tracking
+            const tabFields = {
+                1: ['name', 'email', 'phone', 'dob', 'gender'],
+                2: ['street', 'city', 'state', 'zipcode', 'country', 'contactPreference'],
+                3: ['cardType', 'cardName', 'cardNumber', 'expiryDate', 'cvv', 'billingAddress']
+            };
+
+            // Speech recognition setup
+            let recognition;
+            let isListening = false;
+            let silenceTimer;
+            let silenceCount = 0;
+            const SILENCE_THRESHOLD = 5; // 5 silence periods triggers auto-submission
+            let activeTab = 1;
+
+            // Tab switching function
+            // Tab switching function
+            function openTab(evt, tabName) {
+                // Get all tab content elements and hide them
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Get all tab buttons and remove the "active" class
+                const tabs = document.querySelectorAll('.tab');
+                tabs.forEach(tab => tab.classList.remove('active'));
+
+                // Show the specific tab content and add the "active" class to the button
+                document.getElementById(tabName + 'Tab').classList.add('active');
+                evt.currentTarget.classList.add('active');
+            }
+
+            function resetSilenceTimer() {
+                // Clear the previous timer
+                if (silenceTimer) {
+                    clearTimeout(silenceTimer);
+                }
+
+                // Reset silence counter if speech is detected
+                silenceCount = 0;
+
+                // Start a new timer
+                silenceTimer = setTimeout(() => {
+                    silenceCount++;
+
+                    // If silence persists for the threshold duration, stop listening
+                    if (silenceCount >= SILENCE_THRESHOLD) {
+                        if (isListening) {
+                            recognition.stop();
+                            status.textContent = 'Status: Stopped due to silence detection';
+                        }
+                    }
+                }, 2000); // 2 seconds of silence
+            }
+
+            // 3. Add these two functions to make the submission list and analytics work
+            function updateSubmissionsList() {
+                // Clear current list
+                submissionsList.innerHTML = '';
+
+                if (submissions.length === 0) {
+                    submissionsList.innerHTML = '<div class="submission-item"><p>No submissions yet. Start filling out forms to see them here.</p></div>';
+                    return;
+                }
+
+                // Add each submission to the list
+                submissions.forEach((submission, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'submission-item';
+
+                    const date = new Date(submission.timestamp);
+                    const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+
+                    item.innerHTML = `
+            <h3>#${index + 1}: ${submission.name || 'Anonymous'}</h3>
+            <p><strong>Date:</strong> ${formattedDate}</p>
+            <p><strong>Service:</strong> ${submission.service || 'Not specified'}</p>
+            <p><strong>Satisfaction:</strong> ${submission.satisfaction || '-'}/5</p>
+            <p><strong>Recommendation:</strong> ${submission.recommend || '-'}/5</p>
+            <p><strong>Comments:</strong> ${submission.comments || 'No comments'}</p>
+        `;
+
+                    submissionsList.appendChild(item);
+                });
+            }
+
+            function updateAnalytics() {
+                // Update total submissions count
+                totalSubmissions.textContent = submissions.length;
+
+                if (submissions.length === 0) {
+                    avgSatisfaction.textContent = '-';
+                    avgRecommendation.textContent = '-';
+                    topService.textContent = '-';
+                    return;
+                }
+
+                // Calculate average satisfaction
+                const totalSatisfaction = submissions.reduce((sum, sub) => {
+                    return sum + (sub.satisfaction || 0);
+                }, 0);
+                const avgSatisfactionValue = (totalSatisfaction / submissions.length).toFixed(1);
+                avgSatisfaction.textContent = avgSatisfactionValue;
+
+                // Calculate average recommendation
+                const totalRecommendation = submissions.reduce((sum, sub) => {
+                    return sum + (sub.recommend || 0);
+                }, 0);
+                const avgRecommendationValue = (totalRecommendation / submissions.length).toFixed(1);
+                avgRecommendation.textContent = avgRecommendationValue;
+
+                // Find top service
+                const services = {};
+                submissions.forEach(sub => {
+                    if (sub.service) {
+                        services[sub.service] = (services[sub.service] || 0) + 1;
+                    }
+                });
+
+                let maxCount = 0;
+                let maxService = '-';
+                for (const service in services) {
+                    if (services[service] > maxCount) {
+                        maxCount = services[service];
+                        maxService = service;
+                    }
+                }
+
+                topService.textContent = maxService.charAt(0).toUpperCase() + maxService.slice(1);
+            }
+
+            function getTabName(tabNumber) {
+                switch (tabNumber) {
+                    case 1: return "Basic Details";
+                    case 2: return "Address & Preferences";
+                    case 3: return "Payment Details";
+                    default: return "";
+                }
+            }
+
+            // Check for browser support
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                status.textContent = 'Speech recognition not supported in this browser';
+                startBtn.disabled = true;
+            } else {
+                // Initialize speech recognition
+                recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.continuous = true;
+                recognition.interimResults = true;
+                recognition.lang = 'en-US';
+
+                // Event listeners for speech recognition
+                recognition.onstart = function () {
+                    isListening = true;
+                    status.textContent = 'Status: Listening...';
+                    startBtn.disabled = true;
+                    stopBtn.disabled = false;
+
+                    // Reset silence counter
+                    silenceCount = 0;
+                };
+
+                recognition.onend = function () {
+                    isListening = false;
+                    status.textContent = 'Status: Stopped listening';
+                    startBtn.disabled = false;
+                    stopBtn.disabled = true;
+
+                    // If auto-stop due to silence, submit the form
+                    if (silenceCount >= SILENCE_THRESHOLD) {
+                        status.textContent = 'Status: Auto-submitting after silence detection';
+                        submitForm();
+                    }
+                };
+
+                recognition.onresult = function (event) {
+                    // Reset the silence timer
+                    resetSilenceTimer();
+
+                    let interimTranscript = '';
+                    let finalTranscript = '';
+
+                    for (let i = event.resultIndex; i < event.results.length; i++) {
+                        const transcript = event.results[i][0].transcript;
+
+                        if (event.results[i].isFinal) {
+                            finalTranscript += transcript;
+                            processTranscript(transcript);
+                        } else {
+                            interimTranscript += transcript;
+                        }
+                    }
+
+                    // Display transcripts
+                    if (finalTranscript) {
+                        transcriptBox.innerHTML += '<p>' + finalTranscript + '</p>';
+                        transcriptBox.scrollTop = transcriptBox.scrollHeight;
+                    }
+
+                    interimText.textContent = interimTranscript;
+
+                    // Update JSON preview and completion metrics
+                    updateVisualization();
+                };
+
+                recognition.onerror = function (event) {
+                    status.textContent = 'Error: ' + event.error;
+                    console.error('Speech recognition error', event.error);
+                };
+            }
+
+            // Start speech recognition
+            startBtn.addEventListener('click', function () {
+                try {
+                    recognition.start();
+                } catch (e) {
+                    console.error('Recognition start error:', e);
+                }
+            });
+
+            // Stop speech recognition
+            stopBtn.addEventListener('click', function () {
+                if (isListening) {
+                    recognition.stop();
+                }
+            });
+
+            // Reset form
+            resetBtn.addEventListener('click', function () {
+                // Clear all form fields
+                for (const field in formElements) {
+                    formElements[field].value = '';
+                    formElements[field].classList.remove('highlight');
+                }
+
+                // Clear transcript
+                transcriptBox.innerHTML = '<p>Transcript will appear here...</p>';
+                interimText.textContent = '';
+
+                // Reset visualization
+                detectionConfidence.textContent = 'Waiting for speech input...';
+                updateVisualization();
+
+                status.textContent = 'Status: Form reset';
+
+                // Reset tab progress
+                tab1Progress.className = 'tab-progress';
+                tab2Progress.className = 'tab-progress';
+                tab3Progress.className = 'tab-progress';
+
+                // Go back to first tab
+                openTab(null, 'basicDetails');
+            });
+
+            // Submit form
+            submitBtn.addEventListener('click', submitForm);
+
+            function submitForm() {
+                // Generate final JSON
+                const formData = getFormData();
+                const jsonData = JSON.stringify(formData, null, 2);
+
+                // In a real app, you would send this data to your server
+                console.log('Form submitted:', formData);
+
+                // Update status
+                status.textContent = 'Status: Form submitted successfully';
+
+                // Show alert with the JSON data
+                alert('Form submitted successfully!\n\nJSON Data:\n' + jsonData);
+            }
+
+            // Process transcript and extract form data
+            function processTranscript(transcript) {
+                const text = transcript.toLowerCase();
+                let detectedField = null;
+                let detectedValue = null;
+                let confidenceScore = 0;
+
+                // Process all form fields
+                for (const field in formFields) {
+                    // Handle dropdown fields
+                    if (typeof formFields[field] === 'object' && !Array.isArray(formFields[field])) {
+                        for (const option in formFields[field]) {
+                            for (const keyword of formFields[field][option]) {
+                                if (text.includes(keyword)) {
+                                    highlightField(field);
+                                    formElements[field].value = option;
+
+                                    detectedField = field;
+                                    detectedValue = option;
+                                    confidenceScore = 0.9;
+
+                                    // Update tab if needed
+                                    switchToTabForField(field);
+                                }
+                            }
+                        }
+                    }
+                    // Handle text fields
+                    else {
+                        for (const keyword of formFields[field]) {
+                            if (text.includes(keyword)) {
+                                const index = text.indexOf(keyword) + keyword.length;
+                                let value = transcript.slice(index).trim();
+                                // Remove trailing punctuation or filler words
+                                value = value.replace(/[,.!?].*$/, '').trim();
+
+                                if (value && value !== 'undefined') {
+                                    // Special formatting for certain fields
+                                    if (field === 'dob') {
+                                        // Try to extract date formats
+                                        const datePattern = /\b\d{1,4}[-\/]\d{1,2}[-\/]\d{1,4}\b|\b\d{1,2} (January|February|March|April|May|June|July|August|September|October|November|December) \d{2,4}\b|\b(January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2},? \d{2,4}\b|\b\d{1,2}(st|nd|rd|th) of (January|February|March|April|May|June|July|August|September|October|November|December),? \d{2,4}\b/i;
+                                        const match = value.match(datePattern);
+                                        if (match) {
+                                            try {
+                                                // Attempt to convert to YYYY-MM-DD format
+                                                const date = new Date(match[0]);
+                                                if (!isNaN(date.getTime())) {
+                                                    const yyyy = date.getFullYear();
+                                                    const mm = String(date.getMonth() + 1).padStart(2, '0');
+                                                    const dd = String(date.getDate()).padStart(2, '0');
+                                                    value = `${yyyy}-${mm}-${dd}`;
+                                                }
+                                            } catch (e) {
+                                                console.error("Date parsing error:", e);
+                                            }
+                                        }
+                                    } else if (field === 'cardNumber') {
+                                        // Extract just the digits
+                                        const digitsOnly = value.replace(/\D/g, '');
+                                        if (digitsOnly.length >= 12) {
+                                            // Format as XXXX XXXX XXXX XXXX
+                                            value = digitsOnly.replace(/(\d{4})(?=\d)/g, '$1 ');
+                                        }
+                                    } else if (field === 'expiryDate') {
+                                        // Try to extract MM/YY
+                                        const expiryPattern = /\b(0?[1-9]|1[0-2])\s*\/\s*(\d{2}|\d{4})\b/;
+                                        const match = value.match(expiryPattern);
+                                        if (match) {
+                                            const month = match[1].padStart(2, '0');
+                                            let year = match[2];
+                                            if (year.length === 4) year = year.slice(2);
+                                            value = `${month}/${year}`;
+                                        }
+                                    } else if (field === 'phone') {
+                                        // Extract just the digits
+                                        const phoneDigits = value.replace(/\D/g, '');
+                                        if (phoneDigits.length >= 7) {
+                                            value = phoneDigits;
+                                        }
+                                    } else if (field === 'zipcode') {
+                                        // Extract just the digits and first 5-10 characters
+                                        const zipDigits = value.replace(/\D/g, '');
+                                        if (zipDigits.length >= 5) {
+                                            value = zipDigits.slice(0, 10);
+                                        }
+                                    } else if (field === 'cvv') {
+                                        // Extract just the digits
+                                        const cvvDigits = value.replace(/\D/g, '');
+                                        if (cvvDigits.length >= 3 && cvvDigits.length <= 4) {
+                                            value = cvvDigits;
+                                        }
+                                    }
+
+                                    highlightField(field);
+                                    formElements[field].value = value;
+
+                                    detectedField = field;
+                                    detectedValue = value;
+                                    confidenceScore = 0.85;
+
+                                    // Update tab if needed
+                                    switchToTabForField(field);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Try to detect email pattern regardless of keywords
+                if (text.includes('@')) {
+                    const emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/;
+                    const emailMatch = text.match(emailPattern);
+                    if (emailMatch) {
+                        const email = emailMatch[0];
+                        highlightField('email');
+                        formElements['email'].value = email;
+
+                        detectedField = 'email';
+                        detectedValue = email;
+                        confidenceScore = 0.95;
+
+                        // Update tab if needed
+                        switchToTabForField('email');
+                    }
+                }
+
+                // Try to detect phone number pattern regardless of keywords
+                const phonePattern = /\b(\d{3}[-.\s]?\d{3}[-.\s]?\d{4}|\(\d{3}\)[-.\s]?\d{3}[-.\s]?\d{4})\b/;
+                const phoneMatch = text.match(phonePattern);
+                if (phoneMatch) {
+                    const phone = phoneMatch[0].replace(/\D/g, '');
+                    highlightField('phone');
+                    formElements['phone'].value = phone;
+
+                    detectedField = 'phone';
+                    detectedValue = phone;
+                    confidenceScore = 0.9;
+
+                    // Update tab if needed
+                    switchToTabForField('phone');
+                }
+
+                // Update detection confidence display
+                if (detectedField) {
+                    detectionConfidence.textContent = `Detected "${detectedValue}" for field "${detectedField}" (Confidence: ${(confidenceScore * 100).toFixed(0)}%)`;
+                } else {
+                    detectionConfidence.textContent = `No fields detected in this phrase`;
+                }
+
+                // Check for tab navigation commands
+                if (text.includes('next tab') || text.includes('go to next tab')) {
+                    goToNextTab();
+                } else if (text.includes('previous tab') || text.includes('go to previous tab') || text.includes('go back')) {
+                    goToPreviousTab();
+                } else if (text.includes('tab one') || text.includes('first tab') || text.includes('basic details')) {
+                    openTab(null, 'basicDetails');
+                } else if (text.includes('tab two') || text.includes('second tab') || text.includes('address') || text.includes('preferences')) {
+                    openTab(null, 'addressPreferences');
+                } else if (text.includes('tab three') || text.includes('third tab') || text.includes('payment')) {
+                    openTab(null, 'paymentDetails');
+                } else if (text.includes('submit form') || text.includes('finish form') || text.includes('complete form')) {
+                    submitForm();
+                }
+
+                // Update form completion status
+                updateTabProgress();
+            }
+
+            // Highlight a field briefly to show it's been updated
+            function highlightField(fieldName) {
+                if (formElements[fieldName]) {
+                    formElements[fieldName].classList.add('highlight');
+                    setTimeout(() => {
+                        formElements[fieldName].classList.remove('highlight');
+                    }, 2000);
+                }
+            }
+
+            // Switch to the appropriate tab for a field
+            function switchToTabForField(field) {
+                const tab = fieldToTab[field];
+                const currentTab = activeTab;
+
+                if (tab && tab !== currentTab) {
+                    if (tab === 1) openTab(null, 'basicDetails');
+                    else if (tab === 2) openTab(null, 'addressPreferences');
+                    else if (tab === 3) openTab(null, 'paymentDetails');
+                }
+            }
+
+            // Navigation helpers
+            function goToNextTab() {
+                if (activeTab < 3) {
+                    if (activeTab === 1) openTab(null, 'addressPreferences');
+                    else if (activeTab === 2) openTab(null, 'paymentDetails');
+                }
+            }
+
+            function goToPreviousTab() {
+                if (activeTab > 1) {
+                    if (activeTab === 3) openTab(null, 'addressPreferences');
+                    else if (activeTab === 2) openTab(null, 'basicDetails');
+                }
+            }
+
+            // Update visualization
+            function updateVisualization() {
+                const formData = getFormData();
+                jsonPreview.textContent = JSON.stringify(formData, null, 2);
+
+                // Calculate completion percentage
+                let filledFields = 0;
+                let totalFields = 0;
+
+                for (const field in formElements) {
+                    totalFields++;
+                    if (formElements[field].value) {
+                        filledFields++;
+                    }
+                }
+
+                const percentage = Math.round((filledFields / totalFields) * 100);
+                completionProgress.style.width = `${percentage}%`;
+                completionText.textContent = `${percentage}% Complete`;
+
+                updateTabProgress();
+            }
+
+            // Update tab progress indicators
+            function updateTabProgress() {
+                // Check Tab 1 completion
+                let tab1Filled = 0;
+                for (const field of tabFields[1]) {
+                    if (formElements[field].value) tab1Filled++;
+                }
+                if (tab1Filled === tabFields[1].length) {
+                    tab1Progress.className = 'tab-progress completed';
+                } else if (tab1Filled > 0) {
+                    tab1Progress.className = 'tab-progress active';
+                } else {
+                    tab1Progress.className = 'tab-progress';
+                }
+
+                // Check Tab 2 completion
+                let tab2Filled = 0;
+                for (const field of tabFields[2]) {
+                    if (formElements[field].value) tab2Filled++;
+                }
+                if (tab2Filled === tabFields[2].length) {
+                    tab2Progress.className = 'tab-progress completed';
+                } else if (tab2Filled > 0) {
+                    tab2Progress.className = 'tab-progress active';
+                } else {
+                    tab2Progress.className = 'tab-progress';
+                }
+
+                // Check Tab 3 completion
+                let tab3Filled = 0;
+                for (const field of tabFields[3]) {
+                    if (formElements[field].value) tab3Filled++;
+                }
+                if (tab3Filled === tabFields[3].length) {
+                    tab3Progress.className = 'tab-progress completed';
+                } else if (tab3Filled > 0) {
+                    tab3Progress.className = 'tab-progress active';
+                } else {
+                    tab3Progress.className = 'tab-progress';
+                }
+
+                // Auto-advance to next tab if current tab is complete
+                if (activeTab === 1 && tab1Filled === tabFields[1].length) {
+                    openTab(null, 'addressPreferences');
+                } else if (activeTab === 2 && tab2Filled === tabFields[2].length) {
+                    openTab(null, 'paymentDetails');
+                }
+            }
+
+            // Get form data
+            function getFormData() {
+                const data = {};
+
+                for (const field in formElements) {
+                    data[field] = formElements[field].value;
+                }
+
+                return data;
+            }
+
+            // Reset silence timer
+            function resetSilenceTimer() {
+                clearTimeout(silenceTimer);
+
+                silenceTimer = setTimeout(() => {
+                    silenceCount++;
+                    console.log(`Silence detected (${silenceCount}/${SILENCE_THRESHOLD})`);
+
+                    if (silenceCount >= SILENCE_THRESHOLD) {
+                        if (isListening) {
+                            recognition.stop();
+                        }
+                    } else {
+                        // Continue checking for silence
+                        resetSilenceTimer();
+                    }
+                }, 3000); // 3 seconds of silence
+            }
+
+            // Initialize visualization
+            updateVisualization();
+        } catch (error) {
+            console.error("Error in tab switching:", error);
+            // Fallback tab switching
+            document.getElementById(tabName).style.display = "block";
+            if (tabName === "basicDetails") activeTab = 1;
+            else if (tabName === "addressPreferences") activeTab = 2;
+            else if (tabName === "paymentDetails") activeTab = 3;
+            activeTabIndicator.textContent = `Tab ${activeTab}: ${getTabName(activeTab)}`;
+        }

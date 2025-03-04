@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functions - Practice</title>
+</head>
+
+<body>
+
+    <script>
+        // convertToFahernheit
+        function fahrenheit(celsius) {
+            const fahrenheit = (celsius * 9 / 5) + 32;
+            console.log("fahrenheit", fahrenheit)
+        }
+        fahrenheit(25);
+
+        // convertToCelsius
+        function celsius(fahrenheit) {
+            const celsius = (fahrenheit - 32) * 5 / 9;
+            console.log("celsius", celsius)
+        }
+        celsius(86);
+
+        // convert Temperature
+        function temperature(degree, unit) {
+            console.log(degree, unit)
+            if (unit === 'c') {
+                const fahrenheit = (degree * 9 / 5) + 32;
+                console.log(fahrenheit + 'F')
+            } else if (unit === 'f') {
+                const celsius = (degree - 32) * 5 / 9;
+                console.log(celsius + 'C')
+            }
+        }
+        temperature(25, 'c')
+        temperature(86, 'f')
+
+        // convert Lenght
+        function convertLength(length, from, to) {
+            if (from === 'km' && to === 'miles') {
+                const result = length * 0.625
+                console.log("result", result + to)
+            } else if (from === 'miles' && to === 'km') {
+                const result = length * 1.6
+                console.log("result", result + to)
+            } else {
+                console.log(length + from)
+            }
+        }
+        convertLength(50, 'miles', 'km')
+
+        const showArgs = (args) => {
+            console.log("args", args);
+        };
+        showArgs([1, 2, 3]);
+
+        const user = { name: "Alice", age: 25 };
+        const newUser = { ...user };
+
+        console.log("User", user); // { name: "Alice", age: 25 }
+        console.log("newUser", newUser); // { name: "Alice", age: 25 }
+        console.log("newUser", user === newUser); // false (different references)
+
+        console.log(typeof user)
+        console.log(typeof newUser)
+
+        // Using super() function is required to call the parent class’s constructor
+        // JavaScript automatically provides a default constructor.
+
+
+        class Animal {
+            constructor(name) {
+                this.name = name;
+            }
+        }
+
+        class Dog extends Animal {
+            constructor(name, breed) {
+                super(name); // Calls the parent constructor
+                this.breed = breed;
+            }
+        }
+
+        // multiple constructor
+        const myDog = new Dog("Buddy", "Labrador");
+        const myDog2 = new Dog("abc", "xyz");
+        console.log(myDog.name);  // Buddy
+        console.log(myDog.breed); // Labrador
+
+
+        const numbers = [1, 2, 3, 4, 5];
+        const squaredNumbers = numbers.map(num => num * num);
+
+        console.log("jhbibidff", numbers.map(num => num * 2))
+
+        console.log(squaredNumbers); // [1, 4, 9, 16, 25]
+        console.log(numbers); // [1, 2, 3, 4, 5] (original array remains unchanged)
+
+        const users = [
+            { name: "Alice", age: 25 },
+            { name: "Bob", age: 30 },
+            { name: "Charlie", age: 35 }
+        ];
+
+        const names = users.map(user => user.name);
+        console.log(names); // ["Alice", "Bob", "Charlie"]
+
+
+    </script>
+</body>
+
+</html>

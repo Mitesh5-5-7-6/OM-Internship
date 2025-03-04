@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>09-DOM</title>
+</head>
+
+<body>
+    <h1>DOM - another built-in object</h1>
+    <p>document object</p>
+    <p>DOM combines JavaScript and HTML together It givens JS full control of the webpage.</p>
+
+    <button>Hello</button>
+    <button class="js-button">Second Button</button>
+
+
+    <script>
+
+        console.log(document.title);
+        document.title = "Changed Title";
+
+        console.log(typeof document.body);
+        console.log(document.body);
+        // console.log(document.body.innerHTML);
+        // document.body.innerHTML = '<button>Mitesh</button>'
+
+
+        // document.body.innerHTML = 'Hello';
+        // document.title = "Good Job! Mitesh";
+
+        console.log(document.querySelector('button').innerHTML, innerHeight, innerWidth)
+        document.querySelector('button').innerHTML = 'ncirh';
+
+        const buttonElement = document.querySelector('.js-button');
+        console.log(buttonElement);
+
+    </script>
+</body>
+
+</html>

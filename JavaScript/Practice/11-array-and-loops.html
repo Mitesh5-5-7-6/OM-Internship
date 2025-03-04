@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array and Loops - Practice</title>
+</head>
+
+<body>
+
+    <script>
+        const checkForSearch = (arr) => {
+            let index = 0;
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] === 'search') {
+                    index++
+                }
+            }
+            console.log(index);
+        };
+        checkForSearch(['hello', 'world', 'search', 'good', 'search']);
+        checkForSearch(['not', 'found']);
+
+        function findIndex(array, word) {
+            let index = -1;
+            for (let i = 0; i < array.length; i++) {
+                if (array[i] === word)
+                    index = i;
+            }
+            console.log(index)
+        }
+        findIndex(['green', 'red', 'blue', 'red'], 'red')
+        findIndex(['green', 'blue'], 'red')
+
+        function removeEgg(foods) {
+            let fod = [];
+            for (let i = 0; i < foods.length; i++) {
+                if (foods[i] === 'egg') {
+                    continue;
+                }
+                fod.push(foods[i]);
+            }
+            return fod;
+        }
+        console.log(removeEgg(['egg', 'apple', 'egg', 'egg', 'ham']));
+
+
+        function removeEgg1(foods) {
+            let fod = [];
+            let eggCount = 0;
+            for (let i = 0; i < foods.length; i++) {
+                if (foods[i] === 'egg' && eggCount < 2) {
+                    eggCount++;
+                    continue;
+                }
+                fod.reverse().push(foods[i]);
+            }
+            return fod;
+        }
+        console.log(removeEgg1(['egg', 'apple', 'egg', 'egg', 'ham']));
+
+        let nums = 20;
+        for (let i = 1; i <= nums; i++) {
+            if (i % 3 === 0 && i % 5 === 0) {
+                console.log('FizzBuzz')
+            } else if (i % 3 === 0) {
+                console.log('Fizz')
+            } else if (i % 5 === 0) {
+                console.log('Buzz')
+            } else {
+                console.log(i)
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

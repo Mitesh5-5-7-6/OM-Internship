@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Form Filler with Auto Submit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            margin: 20px 0;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Speech to Form Filler with Auto Submit</h1>
+    <form id="speechForm">
+        <label for="language">Select Language:</label>
+        <select id="language">
+            <option value="en-US">English</option>
+            <option value="es-ES">Spanish</option>
+            <option value="fr-FR">French</option>
+        </select><br>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Say 'Name: [your name]'"><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Say 'Email: [your email]'"><br>
+
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" placeholder="Say 'Message: [your message]'"></textarea><br>
+
+        <button type="button" id="startButton" onclick="startRecognition()">Start Speech Recognition</button>
+        <button type="button" id="stopButton" onclick="stopRecognition()" disabled>Stop Speech Recognition</button>
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        let recognition;
+        let audioContext;
+        let mediaRecorder;
+        let idleTimeout;
+        const idleDuration = 5000; // 5 seconds
+
+        function startRecognition() {
+            const language = document.getElementById('language').value;
+
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert('getUserMedia is not supported in this browser.');
+                return;
+            }
+
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                mediaRecorder = new MediaRecorder(stream);
+
+                const audioChunks = [];
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                    clearTimeout(idleTimeout);
+                    idleTimeout = setTimeout(stopRecognition, idleDuration);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks);
+                    const reader = new FileReader();
+                    reader.readAsDataURL(audioBlob);
+                    reader.onloadend = () => {
+                        const base64AudioMessage = reader.result.split(',')[1];
+                        transcribeAudio(base64AudioMessage, language);
+                    };
+                };
+
+                mediaRecorder.start();
+                document.getElementById('startButton').disabled = true;
+                document.getElementById('stopButton').disabled = false;
+            }).catch(error => {
+                console.error('Error accessing the microphone', error);
+            });
+        }
+
+        function stopRecognition() {
+            if (mediaRecorder) {
+                mediaRecorder.stop();
+                document.getElementById('startButton').disabled = false;
+                document.getElementById('stopButton').disabled = true;
+            }
+        }
+
+        function transcribeAudio(base64AudioMessage, language) {
+            const apiKey = 'YOUR_GOOGLE_CLOUD_API_KEY'; // Replace with your Google Cloud API key
+            axios.post(`https://speech.googleapis.com/v1/speech:recognize?key=${apiKey}`, {
+                config: {
+                    encoding: 'LINEAR16',
+                    sampleRateHertz: 16000,
+                    languageCode: language,
+                },
+                audio: {
+                    content: base64AudioMessage
+                }
+            }).then(response => {
+                const transcript = response.data.results.map(result => result.alternatives[0].transcript).join(' ');
+                const jsonData = parseTranscriptToJSON(transcript);
+                fillFormWithJSON(jsonData);
+            }).catch(error => {
+                console.error('Error during transcription', error);
+            });
+        }
+
+        function parseTranscriptToJSON(transcript) {
+            const jsonData = {};
+            const fields = ['name', 'email', 'message'];
+            fields.forEach(field => {
+                const regex = new RegExp(`${field}:\\s*(.*?)(?=(name:|email:|message:|$))`, 'i');
+                const match = transcript.match(regex);
+                if (match && match[1]) {
+                    jsonData[field] = match[1].trim();
+                }
+            });
+            return jsonData;
+        }
+
+        function fillFormWithJSON(jsonData) {
+            Object.keys(jsonData).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.value = jsonData[key];
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Function</title>
+</head>
+
+<body>
+
+    <p>Function are also values - We can save a function inside a variable</p>
+    <p>const function1 = function () { // Anonymous Function (function without a name)<br>
+        console.log('hufi') <br>
+        }
+        <br>
+        const function1 = function name1() { <br>
+        console.log('hufi') <br>
+        }
+    </p>
+    <div>
+        <p>We can also pass a function into a function : functions are values</p>
+        <p>passing a function into another function</p>
+        function run(param) {
+        param();
+        }
+        <br>
+        run(function () {
+        console.log('Hello4')
+        })
+        <br>
+        <h6>Asynchronous Code : setTimeout and setInterval</h6>
+        <p>won't wait for a line to finish before going to the next line</p>
+        <p>setTimeout run only one time but setInterval run every 3sec or setTime.</p>
+
+        <p>forEach : tack first value in parameter and run the function...</p>
+
+        <button id="myButton" onclick="handleClick()">Start</button>
+
+        <button onclick="addText()">Add to cart</button>
+        <p id="myText"></p>
+
+        <button onclick="" class="js-button">Click Me</button>
+
+    </div>
+
+    <script>
+
+        console.log([1, -3, 5].filter((value, index) => {
+            // if (value >= 0) {
+            //     return true;
+            // } else {
+            //     return false;
+            // }   // both are same
+            return value >= 0;
+        }));
+
+        console.log([1, 2, 4].map((value, index) => {
+            return value * 2;
+        }));
+
+        console.log([1, 2, 4].map(value => value * 2));
+
+        const buttonElement = document.querySelector('.js-button');
+
+        const eventListener = () => {
+            console.log('click');
+        }
+
+        buttonElement.addEventListener('click', () => {
+            console.log('Click');
+        });
+        buttonElement.addEventListener('click', () => {
+            console.log('Click2');
+        });
+
+        buttonElement.removeEventListener('click', eventListener);
+
+        function addText() {
+            let text = document.getElementById('myText');
+
+
+            let intervalId = setInterval(() => {
+                text.textContent = 'Added...'
+            });
+
+            setTimeout(() => {
+                clearInterval(intervalId);
+                text.textContent = ''
+            }, 2000);
+        }
+
+        function name() {
+            console.log('Hell0')
+        }
+        name() // calling the function or running function
+
+        const function1 = function () { // Anonymous Function (function without a name)
+            console.log('hufi')
+        }
+        console.log(function1)
+        console.log("wfewEF", typeof function1);
+        function1();
+
+        const object1 = {
+            num: 2,
+            fun: function greee() {
+                console.log('hhhru' + this.num)
+            }
+        }
+        console.log("object", object1.fun());
+
+        function display(param) {
+            console.log(param)
+        }
+        display(2);
+
+        function run(param) {
+            param();
+        }
+        run(function () {
+            console.log('Hello4')
+        })
+
+        setTimeout(function () {
+            console.log('timeout')
+        }, 3000)
+
+        console.log('next line')
+
+        // setInterval(function () {
+        //     console.log('interval')
+        // }, 3000)
+
+        // console.log('next line 2');
+
+        try {
+            [
+                'make dinner',
+                'wash dishes',
+                'watch youtube'
+            ].forEach(function (value, index) {
+                if (value === 'wash dishes') {
+                    return;
+                }
+                console.log(index);
+                console.log(value);
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+
+        try {
+            [
+                'make dinner',
+                'wash dishes',
+                'watch youtube'
+            ].forEach((value, index) => {
+                if (value === 'wash dishes') {
+                    return;
+                }
+                console.log(index);
+                console.log(value);
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+
+
+        function handleClick() {
+            let loading = document.getElementById('myButton');
+            loading.textContent = 'Loading...'
+
+            setTimeout(function () {
+                loading.textContent = 'Finished'
+            }, 1000)
+        }
+
+        const regularFunction = function (param1, param2) {
+            console.log('hello');
+            return 5;
+        }
+
+        const arrowFunction = (param1, param2) => {
+            console.log('Hello');
+            return 5;
+        };
+        arrowFunction();
+
+        const oneParam = param => {
+            console.log(param + 1)
+        }
+        oneParam(2)
+
+        const onLine = (paramm) => paramm + 3;
+        console.log(onLine(12));
+
+        const object2 = {
+            method: () => {
+
+            },
+            method() {
+
+            }
+        }
+
+        let person = {
+            name: "John",
+            age: 30,
+            greet: function (name) {
+                console.log(name)
+                return name;
+            }
+        };
+        const abc = person.greet([
+            { name: "Alice", age: 25 },
+            { name: "Bob", age: 30 },
+            { name: "Charlie", age: 35 }
+        ]);
+        abc.map(name => name.name)
+        console.log(abc)
+
+        let person1 = {
+            name: "John",
+            age: 30,
+            greet: function (name) {
+                return name;
+            }
+        };
+        const abc1 = person1.greet([
+            { name: "Alice", age: 25 },
+            { name: "Bob", age: 30 },
+            { name: "Charlie", age: 35 }
+        ]);
+        const anji = abc.filter(name => name.name === 'Bob')
+        console.log("anji", anji)
+
+        const users = [
+            { name: "Alice", age: 25 },
+            { name: "Bob", age: 30 },
+            { name: "Charlie", age: 35 }
+        ];
+
+        const names = users.map((element, index, array) => {
+            console.log("element", element.name)
+            console.log("index", index)
+            console.log("array", array.map(name => name.name))
+        });
+
+    </script>
+</body>
+
+</html>
