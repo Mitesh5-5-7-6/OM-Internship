@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Text Form Filler</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-section {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .visualization-section {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+        }
+
+        button.stop {
+            background-color: #f44336;
+        }
+
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: #e2e2e2;
+        }
+
+        .interim {
+            color: gray;
+            font-style: italic;
+        }
+
+        #transcriptBox {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .completion-bar {
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .completion-progress {
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .sentiment-indicator {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .sentiment-label {
+            margin-right: 10px;
+            width: 100px;
+        }
+
+        .sentiment-value {
+            width: 50px;
+            text-align: right;
+        }
+
+        .json-preview {
+            background-color: #2b2b2b;
+            color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow: auto;
+            max-height: 200px;
+        }
+
+        .highlight {
+            background-color: rgba(255, 255, 0, 0.3);
+            transition: background-color 0.5s;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Speech to Text Form Filler</h1>
+    <p>Speak naturally to fill out the client satisfaction form. The system will automatically detect and fill in the
+        form fields.</p>
+
+    <div class="controls">
+        <button id="startBtn">Start Listening</button>
+        <button id="stopBtn" class="stop" disabled>Stop Listening</button>
+        <button id="resetBtn">Reset Form</button>
+        <button id="submitBtn">Submit Form</button>
+    </div>
+
+    <div class="status" id="status">Status: Ready to listen</div>
+    <div id="transcriptBox">
+        <p>Transcript will appear here...</p>
+        <p class="interim" id="interimText"></p>
+    </div>
+
+    <div class="container">
+        <div class="form-section">
+            <h2>Client Satisfaction Form</h2>
+
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+
+            <div class="form-group">
+                <label for="service">Service Used:</label>
+                <select id="service" name="service">
+                    <option value="">Select a service</option>
+                    <option value="consultation">Consultation</option>
+                    <option value="installation">Installation</option>
+                    <option value="repair">Repair</option>
+                    <option value="support">Technical Support</option>
+                    <option value="training">Training</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="satisfaction">Overall Satisfaction (1-5):</label>
+                <input type="number" id="satisfaction" name="satisfaction" min="1" max="5">
+            </div>
+
+            <div class="form-group">
+                <label for="recommend">Likely to Recommend (1-5):</label>
+                <input type="number" id="recommend" name="recommend" min="1" max="5">
+            </div>
+
+            <div class="form-group">
+                <label for="comments">Additional Comments:</label>
+                <textarea id="comments" name="comments" rows="4"></textarea>
+            </div>
+        </div>
+
+        <div class="visualization-section">
+            <h2>Live Data Visualization</h2>
+
+            <h3>Form Completion</h3>
+            <div class="completion-bar">
+                <div class="completion-progress" id="completionProgress"></div>
+            </div>
+            <div id="completionText">0% Complete</div>
+
+            <h3>Input Analysis</h3>
+            <div class="sentiment-indicator">
+                <div class="sentiment-label">Satisfaction:</div>
+                <div class="meter">
+                    <meter id="satisfactionMeter" min="1" max="5" value="0" low="2" high="4" optimum="5"></meter>
+                </div>
+                <div class="sentiment-value" id="satisfactionValue">-</div>
+            </div>
+
+            <div class="sentiment-indicator">
+                <div class="sentiment-label">Recommendation:</div>
+                <div class="meter">
+                    <meter id="recommendMeter" min="1" max="5" value="0" low="2" high="4" optimum="5"></meter>
+                </div>
+                <div class="sentiment-value" id="recommendValue">-</div>
+            </div>
+
+            <h3>JSON Data Preview</h3>
+            <div class="json-preview" id="jsonPreview">{ }</div>
+        </div>
+    </div>
+
+    <script>
+        // Form fields and their corresponding keywords/phrases for speech recognition
+        const formFields = {
+            'name': ['name', 'name is', 'my name is', 'call me', 'I am'],
+            'email': ['email', 'email is', 'my email is', 'contact me at', 'reach me at', '@'],
+            'phone': ['phone', 'phone is', 'my phone is', 'phone number', 'my number is', 'call me at'],
+            'service': {
+                'consultation': ['consultation', 'consulting', 'consultant'],
+                'installation': ['installation', 'install', 'setup', 'set up'],
+                'repair': ['repair', 'fixed', 'repaired'],
+                'support': ['support', 'technical support', 'tech support', 'helped me'],
+                'training': ['training', 'trained', 'teaching', 'learned']
+            },
+            'satisfaction': ['satisfaction', 'satisfied', 'rate', 'give', 'score'],
+            'recommend': ['recommend', 'recommendation', 'refer', 'suggestion', 'likely to recommend'],
+            'comments': ['comment', 'feedback', 'say', 'suggest', 'additional', 'like to add']
+        };
+
+        // DOM elements
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const status = document.getElementById('status');
+        const transcriptBox = document.getElementById('transcriptBox');
+        const interimText = document.getElementById('interimText');
+        const completionProgress = document.getElementById('completionProgress');
+        const completionText = document.getElementById('completionText');
+        const satisfactionMeter = document.getElementById('satisfactionMeter');
+        const recommendMeter = document.getElementById('recommendMeter');
+        const satisfactionValue = document.getElementById('satisfactionValue');
+        const recommendValue = document.getElementById('recommendValue');
+        const jsonPreview = document.getElementById('jsonPreview');
+
+        // Form element references
+        const formElements = {
+            name: document.getElementById('name'),
+            email: document.getElementById('email'),
+            phone: document.getElementById('phone'),
+            service: document.getElementById('service'),
+            satisfaction: document.getElementById('satisfaction'),
+            recommend: document.getElementById('recommend'),
+            comments: document.getElementById('comments')
+        };
+
+        // Speech recognition setup
+        let recognition;
+        let isListening = false;
+        let silenceTimer;
+        let silenceCount = 0;
+        const SILENCE_THRESHOLD = 5; // 5 silence periods triggers auto-submission
+
+        // Check for browser support
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            status.textContent = 'Speech recognition not supported in this browser';
+            startBtn.disabled = true;
+        } else {
+            // Initialize speech recognition
+            recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US';
+
+            // Event listeners for speech recognition
+            recognition.onstart = function () {
+                isListening = true;
+                status.textContent = 'Status: Listening...';
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+
+                // Reset silence counter
+                silenceCount = 0;
+            };
+
+            recognition.onend = function () {
+                isListening = false;
+                status.textContent = 'Status: Stopped listening';
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+
+                // If auto-stop due to silence, submit the form
+                if (silenceCount >= SILENCE_THRESHOLD) {
+                    status.textContent = 'Status: Auto-submitting after silence detection';
+                    submitForm();
+                }
+            };
+
+            recognition.onresult = function (event) {
+                // Reset the silence timer
+                resetSilenceTimer();
+
+                let interimTranscript = '';
+                let finalTranscript = '';
+
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript;
+                        processTranscript(transcript);
+                    } else {
+                        interimTranscript += transcript;
+                    }
+                }
+
+                // Display transcripts
+                if (finalTranscript) {
+                    transcriptBox.innerHTML += '<p>' + finalTranscript + '</p>';
+                    transcriptBox.scrollTop = transcriptBox.scrollHeight;
+                }
+
+                interimText.textContent = interimTranscript;
+
+                // Update JSON preview and completion metrics
+                updateVisualization();
+            };
+
+            recognition.onerror = function (event) {
+                status.textContent = 'Error: ' + event.error;
+                console.error('Speech recognition error', event.error);
+            };
+        }
+
+        // Start speech recognition
+        startBtn.addEventListener('click', function () {
+            try {
+                recognition.start();
+            } catch (e) {
+                console.error('Recognition start error:', e);
+            }
+        });
+
+        // Stop speech recognition
+        stopBtn.addEventListener('click', function () {
+            if (isListening) {
+                recognition.stop();
+            }
+        });
+
+        // Reset form
+        resetBtn.addEventListener('click', function () {
+            // Clear all form fields
+            for (const field in formElements) {
+                formElements[field].value = '';
+                formElements[field].classList.remove('highlight');
+            }
+
+            // Clear transcript
+            transcriptBox.innerHTML = '<p>Transcript will appear here...</p>';
+            interimText.textContent = '';
+
+            // Reset visualization
+            satisfactionMeter.value = 0;
+            recommendMeter.value = 0;
+            satisfactionValue.textContent = '-';
+            recommendValue.textContent = '-';
+            updateVisualization();
+
+            status.textContent = 'Status: Form reset';
+        });
+
+        // Submit form
+        submitBtn.addEventListener('click', submitForm);
+
+        function submitForm() {
+            // Generate final JSON
+            const formData = getFormData();
+            const jsonData = JSON.stringify(formData, null, 2);
+
+            // In a real app, you would send this data to your server
+            console.log('Form submitted:', formData);
+
+            // Update status
+            status.textContent = 'Status: Form submitted successfully';
+
+            // Show alert with the JSON data
+            alert('Form submitted successfully!\n\nJSON Data:\n' + jsonData);
+        }
+
+        // Process transcript and extract form data
+        function processTranscript(transcript) {
+            const text = transcript.toLowerCase();
+
+            // Process name
+            for (const keyword of formFields.name) {
+                if (text.includes(keyword)) {
+                    const index = text.indexOf(keyword) + keyword.length;
+                    let name = transcript.slice(index).trim();
+                    // Remove trailing punctuation or filler words
+                    name = name.replace(/[,.!?].*$/, '').trim();
+
+                    if (name && name !== 'undefined') {
+                        highlightField('name');
+                        formElements.name.value = name;
+                    }
+                }
+            }
+
+            // Process email
+            if (text.includes('@')) {
+                const emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/;
+                const match = transcript.match(emailPattern);
+                if (match) {
+                    highlightField('email');
+                    formElements.email.value = match[0];
+                }
+            } else {
+                for (const keyword of formFields.email) {
+                    if (text.includes(keyword)) {
+                        const index = text.indexOf(keyword) + keyword.length;
+                        let email = transcript.slice(index).trim();
+                        // Remove trailing punctuation or filler words
+                        email = email.replace(/[,.!?].*$/, '').trim();
+
+                        if (email && email !== 'undefined') {
+                            highlightField('email');
+                            formElements.email.value = email;
+                        }
+                    }
+                }
+            }
+
+            // Process phone
+            for (const keyword of formFields.phone) {
+                if (text.includes(keyword)) {
+                    const index = text.indexOf(keyword) + keyword.length;
+                    let phone = transcript.slice(index).trim();
+                    // Remove trailing punctuation or filler words
+                    phone = phone.replace(/[,.!?].*$/, '').trim();
+
+                    // Try to extract just the digits
+                    const phoneDigits = phone.replace(/\D/g, '');
+                    if (phoneDigits.length >= 7) {
+                        highlightField('phone');
+                        formElements.phone.value = phoneDigits;
+                    } else if (phone && phone !== 'undefined') {
+                        highlightField('phone');
+                        formElements.phone.value = phone;
+                    }
+                }
+            }
+
+            // Process service
+            for (const service in formFields.service) {
+                for (const keyword of formFields.service[service]) {
+                    if (text.includes(keyword)) {
+                        highlightField('service');
+                        formElements.service.value = service;
+                        break;
+                    }
+                }
+            }
+
+            // Process satisfaction rating
+            for (const keyword of formFields.satisfaction) {
+                if (text.includes(keyword)) {
+                    // Look for numbers 1-5 in the text
+                    const ratingPatterns = [
+                        /\bone\b/i, /\btwo\b/i, /\bthree\b/i, /\bfour\b/i, /\bfive\b/i,
+                        /\b1\b/, /\b2\b/, /\b3\b/, /\b4\b/, /\b5\b/
+                    ];
+
+                    for (let i = 0; i < ratingPatterns.length; i++) {
+                        if (ratingPatterns[i].test(text)) {
+                            const rating = (i % 5) + 1; // Convert to 1-5
+                            highlightField('satisfaction');
+                            formElements.satisfaction.value = rating;
+                            satisfactionMeter.value = rating;
+                            satisfactionValue.textContent = rating;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Process recommendation rating
+            for (const keyword of formFields.recommend) {
+                if (text.includes(keyword)) {
+                    // Look for numbers 1-5 in the text
+                    const ratingPatterns = [
+                        /\bone\b/i, /\btwo\b/i, /\bthree\b/i, /\bfour\b/i, /\bfive\b/i,
+                        /\b1\b/, /\b2\b/, /\b3\b/, /\b4\b/, /\b5\b/
+                    ];
+
+                    for (let i = 0; i < ratingPatterns.length; i++) {
+                        if (ratingPatterns[i].test(text)) {
+                            const rating = (i % 5) + 1; // Convert to 1-5
+                            highlightField('recommend');
+                            formElements.recommend.value = rating;
+                            recommendMeter.value = rating;
+                            recommendValue.textContent = rating;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Process comments
+            for (const keyword of formFields.comments) {
+                if (text.includes(keyword)) {
+                    const index = text.indexOf(keyword) + keyword.length;
+                    let comment = transcript.slice(index).trim();
+
+                    if (comment && comment !== 'undefined') {
+                        highlightField('comments');
+                        formElements.comments.value = comment;
+                    }
+                }
+            }
+
+            // Catch-all for longer speech that might be comments
+            if (transcript.length > 50 && !text.includes('name') && !text.includes('email') && !text.includes('phone')) {
+                // This might be a comment
+                if (!formElements.comments.value || formElements.comments.value.length < transcript.length) {
+                    highlightField('comments');
+                    formElements.comments.value = transcript;
+                }
+            }
+        }
+
+        // Highlight a field that has been filled
+        function highlightField(fieldName) {
+            const field = formElements[fieldName];
+            field.classList.add('highlight');
+
+            // Remove highlight after a moment
+            setTimeout(() => {
+                field.classList.remove('highlight');
+            }, 2000);
+        }
+
+        // Get form data for JSON preview
+        function getFormData() {
+            return {
+                name: formElements.name.value,
+                email: formElements.email.value,
+                phone: formElements.phone.value,
+                service: formElements.service.value,
+                satisfaction: formElements.satisfaction.value ? parseInt(formElements.satisfaction.value) : null,
+                recommend: formElements.recommend.value ? parseInt(formElements.recommend.value) : null,
+                comments: formElements.comments.value
+            };
+        }
+
+        // Update visualization based on form data
+        function updateVisualization() {
+            // Get form data
+            const formData = getFormData();
+
+            // Update JSON preview
+            jsonPreview.textContent = JSON.stringify(formData, null, 2);
+
+            // Calculate completion percentage
+            let filledFields = 0;
+            let totalFields = 0;
+
+            for (const field in formData) {
+                totalFields++;
+                if (formData[field] && formData[field] !== '' && formData[field] !== null) {
+                    filledFields++;
+                }
+            }
+
+            const completionPercentage = Math.round((filledFields / totalFields) * 100);
+            completionProgress.style.width = completionPercentage + '%';
+            completionText.textContent = completionPercentage + '% Complete';
+
+            // Update meters
+            if (formData.satisfaction) {
+                satisfactionMeter.value = formData.satisfaction;
+                satisfactionValue.textContent = formData.satisfaction;
+            }
+
+            if (formData.recommend) {
+                recommendMeter.value = formData.recommend;
+                recommendValue.textContent = formData.recommend;
+            }
+        }
+
+        // Set up silence detection
+        function resetSilenceTimer() {
+            clearTimeout(silenceTimer);
+
+            silenceTimer = setTimeout(() => {
+                silenceCount++;
+                console.log(`Silence detected (${silenceCount}/${SILENCE_THRESHOLD})`);
+
+                if (silenceCount >= SILENCE_THRESHOLD) {
+                    status.textContent = `Status: Detected ${SILENCE_THRESHOLD} silence periods, stopping...`;
+                    if (isListening) {
+                        recognition.stop();
+                    }
+                }
+            }, 3000); // 3 seconds of silence
+        }
+
+        // Initial visualization update
+        updateVisualization();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boolean</title>
+</head>
+
+<body>
+    <p>JavaScript False vlaue -- false, 0, '', NaN, undefined, null</p>
+    <p>Ternary Operator: true ? 'truthy' : 'falsy'</p>
+    <p>Guard Operator: false && console.log('hello')</p>
+    <h4>
+        const message = true && 'hello';
+        console.log("message", message) // message hello
+        const message1 = false && 'hello';
+        console.log("message", message1) // message false
+    </h4>
+    <script>
+        console.log(4 >= 4)
+
+        console.log(5 == '5.00');
+        console.log(5 === '5');
+        console.log(5 !== 3);
+
+        console.log("both condition same", true && true)
+        console.log("cwef", false || true)
+
+        if (true) {
+            console.log("hello")
+        } else {
+            console.log('else');
+        }
+
+        const age = 14;
+        if (age >= 16) {
+            console.log("You can drive")
+        } else if (age >= 14) {
+            console.log("You almost can drive");
+        }
+        else {
+            console.log("You can't drive");
+        }
+
+        const cartQuantity = 5;
+        if (cartQuantity) {
+            console.log('cart has products');
+        }
+        console.log(!0);
+        console.log('text' / 5);
+        let afwni;
+        console.log(afwni)
+        console.log(null)
+
+        const result = true ? 'true' : 'false';
+        console.log("result", result);
+
+
+        const message = true && 'hello';
+        console.log("message", message)
+        const message1 = false && 'hello';
+        console.log("message", message1)
+
+        const currency = 'INR' || 'USD';
+        console.log(currency)
+        const currency1 = undefined || 'USD';
+        console.log(currency1)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Shipping Calculator</title>
+</head>
+
+<body>
+    <p>Amazon Shipping Calculator</p>
+    <input type="text" class="cost-input" onkeydown="handleKeyDown()" placeholder=" Cost of order in $" name="" id="">
+    <button onclick="calculateTotal()">Calculate</button>
+    <p class="total-cost"></p>
+
+    <h1>Document Object is represent a webpage</h1>
+
+    <h1>Window Object is represent a browser</h1>
+    <p>webpage is inside a browser</p>
+    <p>console is part of a browser -> window.console.log("window")</p>
+    <p>popup is part of a browser -> window.alert('Hello')</p>
+
+    <script>
+        String(21)
+        console.log('25' - 5);
+        console.log('25' + 5);
+
+        window.document
+        window.console.log("window")
+
+        function handleKeyDown() {
+            if (event.key === 'Enter') {
+                calculateTotal();
+            }
+        }
+        function calculateTotal() {
+            const inputElement = document.querySelector('.cost-input');
+            let cost = Number(inputElement.value);
+
+            if (cost < 40) {
+                cost = cost + 10;
+            }
+
+            document.querySelector('.total-cost').innerHTML = `$${cost}`;
+        }
+    </script>
+</body>
+
+</html>

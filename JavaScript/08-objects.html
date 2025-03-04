@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>08 - Objects</title>
+</head>
+
+<body>
+
+    <h1>An object groups multiplevalues together. let us use multiple values together.</h1>
+    <p>Bracket Notation -> Lets us use properties that dont work with dot notation <br> product2['name'] ===
+        product2.name
+    </p>
+    <p>function inside object then function call -> product.fun(). like Math.random() Math is object and random() is
+        function, console.log same as.
+    </p>
+    <p>JSON send data between computers, store data. JSON don't support single quotes ('', "only support this") and
+        function.
+    </p>
+
+    <p>Object -> Comparing the references, not the values inside.</p>
+
+    <p>JavaScript Auto-Boxing number,string or boolean but not work null or undefined</p>
+    <script>
+        const product = {
+            name: 'Socks',
+            price: 1090,
+            'delivery-time': '1 day',
+            rating: {
+                stars: 4.5,
+                count: 87
+            },
+            lname: 'sonagra',
+            fname: null,
+            id: undefined,
+            fun: function function1() {
+                console.log('function inside object')
+            }
+        };
+        console.log(typeof product)
+        console.log(product)
+        console.log(product?.name)
+        console.log(product?.price)
+
+        product.name = 'cotton socks'
+        console.log(product.name);
+
+        product.newProperty = true;
+        console.log(product)
+
+        delete product.newProperty;
+        console.log(product);
+
+        console.log(product['delivery-time'])
+        console.log(product.rating.stars, product.rating.count);
+
+        product.fun();
+
+        // object to JSON
+        console.log("cwefrf", JSON.stringify(product));
+
+        // JSON to object
+        const jsonString = JSON.stringify(product);
+        console.log("wedewd", JSON.parse(jsonString));
+
+        // Auto-Boxing
+        console.log('hello'.length)
+        console.log('hello'.toUpperCase());
+
+        const object1 = {
+            message: 'hello'
+        }
+        const object2 = object1;
+
+        object2.message = 'Good Job!'
+        console.log(object1)
+        console.log(object2)
+
+        const object3 = {
+            message: 'Good Job!'
+        };
+        console.log(object3 === object1)
+        console.log(object2 === object1)
+
+        const object4 = {
+            message: 'Good Job! Mitesh',
+            price: 79
+        };
+
+        // const message = object4.message
+        // de-stuctring property
+        const { message, price } = object4;
+        console.log("CweewfrF", message, price);
+
+        const object5 = {
+            // message: message
+            message,
+            // method: function function1() {
+            //     console.log('method');
+            // }
+            method() {
+                console.log('method');
+            }
+        };
+        console.log(object5);
+    </script>
+</body>
+
+</html>
