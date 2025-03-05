@@ -22,7 +22,9 @@
                 let totalTextLength = text.length;
                 let letterCount = {};
 
-                for (let char of text) {
+                const upperText = text.toUpperCase()
+
+                for (let char of upperText) {
                     letterCount[char] = (letterCount[char] || 0) + 1;
                 }
 
@@ -31,7 +33,7 @@
                 document.getElementById('characterLength').textContent = "Chatacter Length" + " " + totalTextLength
                 document.getElementById('wordLength').textContent = "Word Length" + " " + text.split(/\s/).length;
                 document.getElementById('Line').textContent = "Line" + " " + text.split(/\n/).length;
-                document.getElementById('letterDensity').textContent = output.map((value) => `${value[0]} : ${value[1]}`)
+                document.getElementById('letterDensity').textContent = output.map((value) => `${value[0]} : ${value[1]}(${((value[1] / totalTextLength) * 100).toFixed(0)} %)`)
 
             }
         );
