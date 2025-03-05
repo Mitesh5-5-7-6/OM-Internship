@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h3>Characters Words Lines</h3>
+    <textarea id="textarea"></textarea>
+    <p id="characterLength"></p>
+    <p id="wordLength"></p>
+    <p id="Line"></p>
+    <p id="letterDensity"></p>
+
+    <script>
+        document.getElementById("textarea").addEventListener("input",
+            function () {
+                let text = this.value;
+                let totalTextLength = text.length;
+                let letterCount = {};
+
+                for (let char of text) {
+                    letterCount[char] = (letterCount[char] || 0) + 1;
+                }
+
+                let output = Object.entries(letterCount)
+
+                document.getElementById('characterLength').textContent = "Chatacter Length" + " " + totalTextLength
+                document.getElementById('wordLength').textContent = "Word Length" + " " + text.split(/\s/).length;
+                document.getElementById('Line').textContent = "Line" + " " + text.split(/\n/).length;
+                document.getElementById('letterDensity').textContent = output.map((value) => `${value[0]} : ${value[1]}`)
+
+            }
+        );
+    </script>
+</body>
+
+</html>
