@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h4>Uses of closures</h4>
+    <p>Module Design Pateern, Currying, Functions like once</p>
+
+    <script>
+        {
+            // block :  compound statment -> it's combined multiple javascript statment in group
+            var a = 10;
+            console.log(a);
+
+            // block scope : all variable or function we can access inside this block
+            var b = 10; // Global scope (because var is function-scoped)
+            let c = 20; // Block scope
+            const d = 30; // Block scope
+            console.log(b); // 10
+            console.log(c); // 20
+            console.log(d); // 30
+        }
+        console.log(b); // 10
+        // console.log(c); // Error because let are not global scope 
+        // console.log(d); // Error because let are not global scope
+
+
+        // Shadowing
+        var a = 100; // this a is block scope and
+        {
+            var a = 10; // this a is same block scope
+            console.log(a); // 10;
+        }
+        console.log(a); // 10(ten) not 100;
+
+
+
+        let f = 100;   // this f is block scope and
+        {
+            let f = 10; // this f is another block scope
+            console.log(f)
+        }
+        console.log(f)
+
+        var c = 100;
+        function x() {
+            var c = 30;
+            console.log("ewfwe", window.c); // 100
+            window.c = 20;
+        }
+        x();
+        console.log("wwD", c); // 20
+
+
+        // shadowing
+        var av = 20;
+        {
+            var av = 100;
+            console.log("we", av) // 100;
+        }
+        console.log("we", av) // 100;
+
+
+        // let ca = 20; // show error because this is in-lingual
+        // {
+        //     var ca = 100;
+        // }
+        // this is not in-lingual shadowing
+        let caa = 20;
+        function a() {
+            var caa = 20;
+        }
+        // but this is valid
+        var ca = 20;
+        {
+            let ca = 100;
+            console.log("av", ca)
+        }
+        console.log(ca)
+
+        const ask = 20;
+        function aaa() {
+            const ask = 100;
+            function aa() {
+                const ask = 200;
+                console.log("Cwe", ask); // local scope 200
+                console.log("Csswe", window.ask); // global scope 20
+            }
+            console.log("Cssswe", window.ask); // global scope 20
+            aa();
+        }
+        aaa();
+
+        // Closures : function along with lexical scope to gether
+        function x() {
+            var a = 1;
+            function y() {
+                console.log(a); // 1
+            }
+            return y;
+            // y();
+        }
+        var z = x();
+        console.log("z", z)
+        z();
+
+
+    </script>
+</body>
+
+</html>

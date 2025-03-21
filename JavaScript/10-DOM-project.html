@@ -67,13 +67,14 @@
 
         function subscribe() {
             const buttonElement = document.querySelector('.subscribe-button');
-            if (buttonElement.innerText === 'Subscribe') {
-                buttonElement.innerHTML = 'SubScribed';
-                buttonElement.classList.add('is-subscribed');
-            } else {
-                buttonElement.innerHTML = 'SubScribe'
-                buttonElement.classList.remove('is-subscribed')
-            }
+            // if (buttonElement.innerText === 'Subscribe') {
+            //     buttonElement.innerHTML = 'SubScribed';
+            //     buttonElement.classList.add('is-subscribed');
+            // } else {
+            //     buttonElement.innerHTML = 'SubScribe'
+            //     buttonElement.classList.remove('is-subscribed')
+            // }
+            (buttonElement.innerText === 'Subscribe') ? (buttonElement.innerHTML = 'SubScribed', buttonElement.classList.add('is-subscribed')) : (buttonElement.innerHTML = 'SubScribe', buttonElement.classList.remove('is-subscribed'));
         }
 
         window.document
