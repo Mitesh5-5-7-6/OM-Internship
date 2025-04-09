@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer Input Display</title>
+</head>
+
+<body>
+
+    <div>
+        <h2>Timer</h2>
+        <input type="time" name="timer" id="timer" step="1">
+        <input type="button" value="Start" id="start">
+        <input type="button" value="Pause" id="pause">
+        <input type="reset" value="Reset" id="reset">
+
+        <div class="js-timer-details__time"></div>
+    </div>
+
+    <div>
+        <h2>Stopwatch</h2>
+        <input type="button" value="Start" id="startStopwatch">
+        <input type="button" value="Pause" id="pauseStopwatch">
+        <input type="button" value="Lop" id="lapsStopwatch">
+        <input type="reset" value="Reset" id="resetStopwatch">
+
+        <div class="js-stopwatch-details__time">0:0:0</div>
+        <div class="js-stopwatch-details__table"></div>
+    </div>
+
+    <div>
+        <h2>Alarm</h2>
+        <input type="time" name="alarm" id="alarm" step="1">
+        <input type="button" value="Set Alarm" id="setAlarm">
+        <input type="button" value="Cancel Alarm" id="cancelAlarm">
+        <p id="alarmStatus"></p>
+
+        <label for="ringtone">Choose Ringtone:</label>
+        <select id="ringtoneSelect">
+            <option value="ring1">Ringtone 1</option>
+            <option value="ring2">Ringtone 2</option>
+            <option value="ring3">Ringtone 3</option>
+        </select>
+
+        <audio id="ring1" src="https://www.soundjay.com/misc/sounds/bell-ringing-02.mp3" preload="auto"></audio>
+        <audio id="ring2" src="https://www.soundjay.com/misc/sounds/bell-ringing-04.mp3" preload="auto"></audio>
+        <audio id="ring3" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" preload="auto"></audio>
+    </div>
+
+
+    <script src="./timer.js"></script>
+    <script src="./stopwatch.js"></script>
+    <script src="./alarm.js"></script>
+</body>
+
+</html>
