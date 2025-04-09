@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        const arr = [1, 2, 3, 4, 5]
+
+        console.log(arr.map(a => a.toString(2)));
+
+        console.log(arr.filter(a => (a >= 2)));
+
+        console.log(arr.reduce((acc, curr) => acc + curr));
+
+        const output = arr.reduce(function (max, curr) {
+            if (curr > max) {
+                max = curr;
+            }
+            return max;
+        }, 0)
+        console.log(output)
+
+        const users = [
+            { firstname: "Mitesh", lastname: "Sonagra", age: 22 },
+            { firstname: "Jay", lastname: "Patel", age: 26 },
+            { firstname: "Jayyogi", lastname: "Sonagra", age: 27 },
+            { firstname: "Om", lastname: "Vanara", age: 22 }
+        ]
+        console.log(users.map(x => x.firstname))
+
+        console.log(users.reduce(function (acc, curr) {
+            if (acc[curr.age]) {
+                acc[curr.age] = ++acc[curr.age];
+            } else {
+                acc[curr.age] = 1
+            }
+            return acc;
+        }, {}))
+
+        // const a = users.filter(function (a) {
+        //     if (a.age < 25) {
+        //         console.log(a.firstname)
+        //     } 
+        // })
+        const a = users.filter(a => a.age < 25)
+        console.log(a.map(x => x.firstname))
+
+    </script>
+
+</html>

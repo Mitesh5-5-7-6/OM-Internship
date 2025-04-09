@@ -10,7 +10,7 @@
 <body>
 
     <h4>Uses of closures</h4>
-    <p>Module Design Pateern, Currying, Functions like once</p>
+    <p>Module Design Pateern, Functions like once, maintaining state in async, setTimeouts</p>
 
     <script>
         {
@@ -44,9 +44,9 @@
         let f = 100;   // this f is block scope and
         {
             let f = 10; // this f is another block scope
-            console.log(f)
+            console.log(f) // 10
         }
-        console.log(f)
+        console.log(f) // 100
 
         var c = 100;
         function x() {

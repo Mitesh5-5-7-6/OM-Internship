@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h6>Anonymous Function</h6> : <p>A function without a name it's called anonymous function</p>
+
+    Function Statement = Function Declaration
+    function a(){ console.log("a called")}
+
+    Function Expression
+    var b = function(){ console.log("b called")}
+
+    Anonymons Function
+    function () {}
+
+
+    <h6>First class Function</h6>
+
+    <button id="clickMe">Click Me</button>
+
+    <script>
+        // This is diff. function statement and function expression
+        // a(); // function a is store memory in as a function a 
+        // b(); // and function b is store memory in as a variable b then show error
+
+        function a() { console.log("a called") }
+        var b = function () { console.log("b called") }
+        a();
+        b();
+
+        // Anonymous function : is don't have own identity
+        // function () { }
+
+        // Named Function Expression
+        var c = function xyz() {
+            console.log("vjhbj")
+            console.log(xyz); // you can use this function inside this
+        }
+        // xyz();  // this xyz are not define global diffine then show error
+
+
+        // Difference between Parameters and Arguments
+        var b = function (param1, param2) {
+            console.log(param2, param1);
+        }
+        b(1, 2);
+
+
+        // First class function : function to be used as a values and can be pass argument to another function, retunr function
+
+
+        // callback function
+
+        document.getElementById('clickMe').addEventListener("click", function a() {
+            console.log("Button Click");
+        })
+
+
+    </script>
+</body>
+
+</html>

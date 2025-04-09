@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        const d = new String("Mitesh-Sonagra");
+        console.log(typeof d)
+        console.log(d.__proto__)
+        console.log(d.length)
+        console.log(d.toUpperCase());
+        console.log(d.charAt(2));
+        console.log(d.indexOf("t"));
+
+        // slice and substring
+        const newString = d.substring(0, 4);
+        console.log(newString);
+
+        // same as substring but it's accept negative value and substring are not accept negative value.
+        const newString2 = d.slice(-1, -3);
+        console.log(newString2);
+
+        // trim remove the white space from the string
+        const newStriing3 = "  kce    ";
+        console.log(newStriing3)
+        console.log(newStriing3.trim());
+
+        const url = "https://www.google.com/google%20%mitesh";
+        console.log(url.replace('%20%', '-'));
+
+        // split method convert string to array with given - value
+        console.log(d.split('-'));
+
+        switch (10) {
+            case true:
+                console.log("true");
+            // break;
+            case false:
+                console.log("false");
+            // break;
+            case "10":
+                console.log("string");
+            // break;
+        }
+
+        // Anonymous Function (function without name)
+        const x = function () {
+            console.log("Mitesh");
+        }
+        x();
+
+        const arr = [1, 2, 4]
+        const arr1 = ['Mitesh', 'Sonagra']
+        const res = [...arr, ...arr1]
+        console.log(res)
+
+        const items = ["item1", "item2", "item3", "item4", "item5"];
+        const [a, b, c, f, e] = items;
+        console.log(a, b, c, e, f)
+        console.log(items)
+
+        // add or update a key -> value in object.
+        const person = {
+            name: "Mitesh",
+            "person age": 22,
+            city: "Surat"
+        }
+        console.log(person)
+
+        person.name = "Sonagra";
+        console.log(person)
+
+        person.add = "APC";
+        console.log(person)
+
+        // it's use then key in space then it's use bracket notation. other wise it's use dot notation.
+        console.log(person?.name)
+        console.log(person["person age"])
+
+        // only show key in object
+        for (let key in person) {
+            console.log(key)
+            console.log("person", person[key])
+        }
+        console.log("keys", Object.keys(person))
+        console.log("values", Object.values(person))
+        console.log("entries", Object.entries(person))
+
+        console.log("key compare", Object.values(person).includes("Mitesh"));
+
+        const PI = 3.14159;
+        console.log(PI)
+        // PI = 3.14; // This would throw a TypeError
+
+
+        // Hoisting in js : means you can access the variable before it's declared.
+        // var are hoisted but they are not before initialized. 
+
+        console.log("ab", ab); // global scope then show undefine
+        var ab = 10;
+        console.log(window.ab); // var is global scope
+        var ab = 20;
+
+
+        // let and const are hoisted but they are not before initialized.
+
+        // console.log("ac", ac); // it's show error because let are not global scope
+        let ac = 10;
+        ac = 20;
+        console.log("ac", ac);
+        console.log(window.ac); // let is not global scope it's block scope
+
+        // console.log("af", af); // it's show error because const are not global scope
+        const af = 10;
+        // af = 20;
+        console.log("af", af);
+        console.log(window.af); // const is not global scope. const is also block-scoped and cannot be re-assigned.
+
+
+        // function Hoisting : function are hoisted and initialized before the code is executed.
+        // Arrow function are not hoisted.
+        name();
+        function name() {
+            console.log("Mitesh")
+        }
+
+        // name1(); // it's show error because it's not hoisted.
+        var name1 = function () {
+            console.log("Mitesh")
+        }
+
+        // name2(); // it's show error because it's not hoisted.
+        var name2 = () => {
+            console.log("Mitesh")
+        }
+
+        // Closure : create a function calling it self ( function inside a function )
+        function outer() {
+            const outerVar = "Outer Variable";
+            function inner() {
+                console.log(outerVar);
+            }
+            return inner;
+        }
+
+        var caaa = 100;
+        function xba() {
+            var caaa = 30;
+            console.log("ee", caaa); // 30
+            console.log("ewfwe", window.caaa); // 100
+            window.caaa = 20;
+        }
+        xba();
+        console.log("wwD", caaa); // 20
+
+        const caa = 100;
+        function xb() {
+            var caa = 30;
+            console.log("ewfwe", window.caa); // undefined
+            window.caa = 20;
+        }
+        xb();
+        console.log("wwD", caa); // 100
+
+        const xas = '1011101101';
+        const names = ['a', 'c', 'd']
+        const adas = [...xas, ...names]
+        console.log(adas)
+
+        for (let key in person) {
+            console.log(person[key])
+        }
+
+        // hoisting
+
+        // var name12123 = "cwc";
+        console.log(name12123)
+        var name12123 = "Mitesh"
+        console.log(name12123)
+
+        // let akc = "wwf";
+        // console.log(akc)
+        let akc = "cw"
+        console.log(akc)
+
+        // const akcc = 'dwe';
+        // console.log(akcc)
+        const akcc = "cw"
+        // console.log(akcc)
+
+        // function hoisting : function can be called before declaring it.
+        // but Arrow function in not use hoisting because arrow function as variable.
+        name();
+        function name() {
+            console.log("Mitesh Sonagra")
+        }
+
+    </script>
+</body>
+
+</html>
