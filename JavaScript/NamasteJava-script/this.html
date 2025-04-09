@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <button onclick="alert(this.tagName)">Mitesh</button>
+
+    <script>
+        "use strict";
+
+        // this is a global object in javascript
+        console.log(this); // window object 
+        // browser in global object different, nodejs in global object is different.
+
+        // this keyword inside a function the value depend on strict / non strict mode
+        function x() {
+            console.log(this);
+        }
+        x(); // window object
+
+        // this inside non-strict mode - (this substitution)
+        // if the value of this keyword is undefined or null then it will be replaced with global object
+        // only in non strict mode this keyword will be replaced with global object
+
+        // this keyword value depend on how the function is called
+
+        // use "use strict" mode then this keyword value will be undefined
+        // but use can access this value by using window object  ->  window.x();
+        function y() {
+            console.log(this);
+        }
+        y(); // undefined
+        window.y(); // window object
+
+        // this inside a object method
+        const obj = {
+            name: "EventMagic",
+            age: 22,
+            getName: function () {
+                // console.log(this);
+                console.log(this.name);
+            },
+            getAge: function () {
+                console.log(this.age);
+            }
+        };
+        obj.getName(); // "EventMagic" (this refers to obj)
+        obj.getAge(); // 22 (this refers to obj)
+
+        const obj2 = {
+            name: "Mitesh",
+            age: 28
+        }
+
+        // call() immediately invokes the function and allows us to explicitly set this to another object.
+        obj.getName.call(obj2); // "Mitesh" (this refers to obj2)
+
+        // apply() works exactly like call(), except it takes arguments as an array.
+        obj.getName.apply(obj2); // "Mitesh" (this refers to obj2)
+
+        // bind() returns a new function, allowing you to pass in a this array and any number of arguments.
+        // bind(obj2) returns a new function where this refers to obj2
+        obj.getAge.bind(obj2)(); // "Mitesh" (this refers to obj2)
+
+
+        // arrow function does not have its own this value.
+        const obj3 = {
+            a: 10,
+            x: () => {
+                console.log(this); // window object
+                console.log(this.a); // undefined
+            }
+        }
+        obj3.x(); // use arrow function then it will refer to window object (global object).
+
+        // this keyword inside a arrow function
+        // arrow function does not provide their own this binding.
+        const obj4 = {
+            a: 20,
+            x: function () {
+                const y = () => {
+                    console.log(this);
+                    console.log(this.a);
+                }
+                y();
+            }
+        }
+        obj4.x();
+
+        // this keyowrd inside DOM element
+        // this refers to the element that triggered the event
+    </script>
+</body>
+
+</html>

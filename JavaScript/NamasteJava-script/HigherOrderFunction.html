@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h4>Higher Order Function : A Function take another function as argument or return function</h4>
+
+    <script>
+        // function x() { // x is callback function
+        //     console.log("Namaste");
+        // }
+
+        // function y(x) { // y is higher order function
+        //     x();
+        // }
+        // y(x);
+
+        const radius = [3, 2, 1, 4];
+
+        const area = function (radius) {
+            return Math.PI * radius * radius
+        }
+        const circumference = function (radius) {
+            return 2 * Math.PI * radius
+        }
+        const diameter = function (radius) {
+            return 2 * radius
+        }
+
+        // Generic function
+        const calculate = function (radius, logic) {
+            const output = [];
+            for (let i = 0; i < radius.length; i++) {
+                output.push(logic(radius[i]));
+            }
+            return output;
+        }
+
+        console.log(calculate(radius, area));
+        console.log(calculate(radius, circumference));
+        console.log(calculate(radius, diameter));
+
+    </script>
+</body>
+
+</html>

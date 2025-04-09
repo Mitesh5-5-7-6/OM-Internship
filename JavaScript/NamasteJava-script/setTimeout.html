@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>setTimeout</title>
+</head>
+
+<body>
+
+    <script>
+        // function x() {
+        //     var i = 1;
+        //     setTimeout(function () {
+        //         console.log(i);
+        //     }, 3000);
+        //     console.log("Hello Mitesh");
+        // }
+        // x();
+
+        function y() {
+            for (var i = 0; i <= 5; i++) {
+                setTimeout(function () {
+                    console.log(i)
+                }, i * 1000)
+            }
+        }
+        y();
+
+        function z() {
+            for (let i = 0; i <= 5; i++) { // let variable loop called then each and every time create new copy of variable it self
+                setTimeout(function () { // because let variable is block scope
+                    console.log(i)
+                }, i * 1000)
+            }
+        }
+        z();
+
+        function outer() {
+            var a = 10;
+            function inner() {
+                console.log(a)
+            }
+            inner();
+        }
+        outer();
+
+    </script>
+</body>
+
+</html>

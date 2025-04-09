@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promises</title>
+</head>
+
+<body>
+    <h5>Promises : A Promises is an object representing the eventual completion or failure of an asynchronous operation.
+    </h5>
+
+    <script>
+        const cart = ['shoes', 'pants', 'kurta'];
+
+        // this is callback function it's all depend all each other
+        // createOrder(cart, function (orderId) { 
+        //     procedToPayment(orderId, function (){
+        //         showOrderSummary(paymentInfo, function(){
+        //             updateWalletBalance();
+        //         })
+        //     });
+        // })
+
+        // this promises better then callback , Promises always return 
+        // createOrder(cart)
+        //     .then(function (orderId) {
+        //         return procedToPayment(orderId);
+        //     }).then(function (paymentInfo) {
+        //         return showOrderSummary(paymentInfo);
+        //     }).then(function (paymentInfo) {
+        //         return updateWalletBalance(paymentInfo);
+        //     })
+
+        // use arrow function
+        createOrder(cart)
+            .then(orderId => procedToPayment(orderId))
+            .then(paymentInfo => showOrderSummary(paymentInfo))
+            .then(paymentInfo => updateWalletBalance(paymentInfo));
+
+
+    </script>
+</body>
+
+</html>

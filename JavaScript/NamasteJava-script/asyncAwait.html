@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>async / await</title>
+</head>
+
+<body>
+    Hoisting in js
+    Closure : create a function calling it self ( function inside a function )
+    Higher Order Function : map, filter, reduce it will be tranform data in array but not change original data
+    Arrow function : it's define as a variable
+    Promises : it's a result in future in there will be ither resolved or reject
+    fetch or axios to fetch data in api.
+
+    async function always returns a promise
+
+    <script>
+        // async function getData() {
+        //     return 'Mitesh';
+        // }
+
+        // const data = getData();
+        // console.log(data);
+
+        // data.then(res => console.log(res));
+
+        // you can use async await then async await wait for the promise to resolve after run next line of code.
+        const p = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('Pitesh');
+            }, 5000)
+        });
+        const m = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('Mitesh');
+            }, 8000)
+        });
+
+        async function handlePrmoise() {
+            const val = await p;
+            console.log("Hello");
+            console.log(val);
+
+            const val2 = await m;
+            console.log("Hello2");
+            console.log(val2);
+        }
+        handlePrmoise();
+
+        // Promise.all();  : JavaScript method that takes an array of promises and returns a single promise that resolves when all the input promises have resolved or rejects if any of the input promises reject.
+        // Promise.all([p1, p2, p3]).then((values) => {
+        //     console.log(values);
+        // });
+
+        // Case1 : All Promises are Resolved
+        // this process in p1 take 3s, p2 take 2s, p3 take 1s then it will take 3s to resolve all promises.
+        // because all promises are running parallelly.
+        // wait for all of then to resolve then it will return the value.
+
+        // Case2 : like one promise are rejected
+        // if p2 is rejected then it will return the rejected value (Error).
+        // like p2 take 1s and throw error then immediately it will return the error.
+        // it will not wait for p1 and p3 (other promises) to resolve.
+
+        // Promise.allSetteled() : wait for all promises to be settled (either resolved or rejected) after 3s [p1, error2, p3] then it will return the value.
+
+        // p1 3s, p2 1s, p3 2s
+        // Promise.race([p1,p2,p3]) : it will return the value of the promise which is resolved first.
+        // .race() in first settled promise are return either resolved or rejected.
+        // if p2 is resolved first then it will return the value of p2.
+        // if p2 is rejected first then it will return the error of p2.
+        // it will not wait for other promises to resolve or reject.
+
+        // Promise.any([p1,p2,p3]) : it will return the value of the promise which is resolved first.
+        // if all promises are rejected then it will return the error.
+        // wait for first resolved promise to return the value.
+        // when over all promises are rejected then it will return the error.
+        // all promises are rejected then it will return the Aggregate error. List of all errors.
+
+        const p1 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject('P1 failed');
+            }, 2000)
+        });
+        const p2 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject('P2 failed');
+            }, 1000)
+            // setTimeout(() => {
+            //     reject('P2 Failed');
+            // }, 1000)
+        });
+        const p3 = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                reject('P3 Failed');
+            }, 2000)
+        });
+
+        // Promise.all([p1, p2, p3])
+        //     .then(res => console.log(res))
+        //     .catch(err => console.error(err));
+
+        // Promise.allSettled([p1, p2, p3])
+        //     .then(res => console.log(res))
+        //     .catch(err => console.error(err));
+
+        // Promise.race([p1, p2, p3])
+        //     .then(res => console.log(res))
+        //     .catch(err => console.error(err));
+
+        Promise.any([p1, p2, p3])
+            .then(res => console.log(res))
+            .catch(err => {
+                console.error(err);
+                console.log(err.errors);
+
+            })
+    </script>
+</body>
+
+</html>
