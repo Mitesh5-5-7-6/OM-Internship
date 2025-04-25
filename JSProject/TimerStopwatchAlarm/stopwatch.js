@@ -14,14 +14,6 @@ let prevLapSeconds = 0;
 let lapNo = 0
 let setIntervalStopwatchTime;
 
-// function convertSecond(timeValue) {
-//     const hours = timeValue.split(":")[0];
-//     const minutes = timeValue.split(":")[1];
-//     const seconds = timeValue.split(":")[2];
-
-//     totalSeconds = (hours * 3600) + (minutes * 60) + (seconds * 1)
-// }
-
 function convertTime(totalSecond) {
 
     const hours = parseInt(totalSecond / 3600)
@@ -45,7 +37,6 @@ stopwatchPauseButton.addEventListener('click', () => {
         stopwatchLapButton.disabled = true
         stopwatchPauseButton.value = 'Resume'
     } else {
-        // convertSecond(stopwatchDetailsTime.textContent)
         setIntervalStopwatchTime = setInterval(() => {
             totalSeconds += 1
             stopwatchDetailsTime.textContent = convertTime(totalSeconds);
@@ -93,7 +84,7 @@ stopwatchResetButton.addEventListener('click', () => {
     totalSeconds = 0;
     prevLapSeconds = 0;
     lapNo = 0;
-    stopwatchDetailsTime.textContent = '00:00:00';
+    stopwatchDetailsTime.textContent = '';
     stopwatchDetailsTable.innerHTML = '';
     stopwatchStartButton.disabled = false;
     stopwatchPauseButton.value = 'Pause';

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Application</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Quiz Application</h1>
+        </header>
+
+        <main>
+            <div id="quizListContainer">
+                <!-- Quiz list will be displayed here -->
+                <div id="noQuizMessage" class="message-box">
+                    <p>No quizzes available. Create a new quiz to get started!</p>
+                </div>
+
+                <div id="quizList">
+                    <!-- Quiz items will be populated here dynamically -->
+                </div>
+            </div>
+
+            <div id="activeQuizContainer" style="display: none;">
+                <h2 id="quizTitle">Quiz Title</h2>
+                <div id="quizDescription"></div>
+                <form id="quizForm">
+                    <div id="questionsContainer">
+                        <!-- Questions will be populated here dynamically -->
+                    </div>
+                    <div class="button-container">
+                        <button type="submit" class="btn primary-btn">Submit Quiz</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="resultsContainer" style="display: none;">
+                <h2>Quiz Results</h2>
+                <div id="scoreDisplay" class="score-box">
+                    <div class="score-percentage">0%</div>
+                    <div class="score-details">
+                        <p>Correct answers: <span id="correctAnswers">0</span></p>
+                        <p>Total questions: <span id="totalQuestions">0</span></p>
+                        <p>Total points: <span id="totalPoints">0</span></p>
+                    </div>
+                </div>
+                <div id="questionReview">
+                    <!-- Review of questions will be displayed here -->
+                </div>
+                <div class="button-container">
+                    <button id="backToQuizzes" class="btn secondary-btn">Back to Quizzes</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <button id="addQuizBtn" class="btn primary-btn">Add Quiz</button>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    Function Currying
+
+    <script>
+        // Two ways to make
+
+        // 1. bind method
+        let multiply = function (x, y) {
+            console.log(x * y);
+        }
+
+        // bind method copy multiply method and it's not invoce directly
+        let multiplyByTwo = multiply.bind(this, 2);
+        multiplyByTwo(5); // x given user,y is comman 2
+
+
+        // 2. Closer function
+        let mutiply = function (x) {
+            console.log(x) // 2
+            return function (y) {
+                console.log(y) // 3
+                console.log(x * y);
+            }
+        }
+        let multiplyTwo = mutiply(2);
+        multiplyTwo(3);
+
+    </script>
+</body>
+
+</html>
