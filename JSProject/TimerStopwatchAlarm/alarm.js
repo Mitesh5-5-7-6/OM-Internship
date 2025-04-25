@@ -9,26 +9,36 @@ let alarmTimeout;
 setAlarmBtn.addEventListener("click", () => {
     const alarmTime = alarmInput.value;
     if (!alarmTime) {
-        alert("Please select a time.");
+        alarmStatus.textContent = "Please select a time."
         return;
     }
 
     const now = new Date();
     const alarmDate = new Date(now.toDateString() + " " + alarmTime);
 
-    if (alarmDate < now) {
-        alarmDate.setDate(alarmDate.getDate() + 1);
-    }
+    console.log(now)
+    console.log(now.getTime())
+
+    console.log(alarmDate)
+    console.log(alarmDate.getTime())
 
     const timeToAlarm = alarmDate.getTime() - now.getTime();
-    console.log("timeToAlarm", timeToAlarm)
+
     alarmStatus.textContent = `Alarm set for ${alarmDate.toLocaleTimeString()}`;
 
+    const selectedId = ringtoneSelect.value;
+    const selectedAudio = document.getElementById(selectedId);
     alarmTimeout = setTimeout(() => {
-        const selectedId = ringtoneSelect.value;
-        const selectedAudio = document.getElementById(selectedId);
         selectedAudio.play();
-    }, 10000);
+
+        alarmTimeout = setTimeout(() => {
+            selectedAudio.pause();
+            clearTimeout(alarmTimeout);
+            alarmStatus.textContent = "Alarm completed.";
+        }, 5000);
+
+    }, timeToAlarm);
+
 });
 
 cancelAlarmBtn.addEventListener("click", () => {

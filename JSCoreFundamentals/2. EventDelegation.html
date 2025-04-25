@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Delegation</title>
+</head>
+
+<body>
+    Event Delegation : categories parent componet in many child products and click child product then open in new tab
+    so, not write in every child product then use Event Delegation.
+    use event bubbling.
+
+    <br><br> useCase :
+
+    <div>
+        <ul id="category">
+            <li id="laptops">Laptops</li>
+            <li id="camers">Camers</li>
+            <li id="shoes">Shoes</li>
+        </ul>
+    </div>
+
+    <div id="form">
+        <input type="text" id="name" data-uppercase>
+        <input type="text" id="pan">
+        <input type="text" id="shoes" data-uppercase>
+    </div>
+
+
+    <script>
+        document.querySelector("#category").addEventListener('click', (e) => {
+            console.log(e.target.id)
+            window.location.href = "/" + e.target.id
+        })
+
+        document.querySelector("#form").addEventListener('keyup', (e) => {
+            if (e.target.dataset.uppercase != undefined) {
+                e.target.value = e.target.value.toUpperCase();
+            }
+        })
+    </script>
+</body>
+
+</html>

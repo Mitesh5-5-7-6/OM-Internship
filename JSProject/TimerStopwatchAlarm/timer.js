@@ -32,38 +32,36 @@ function convertTime(totalSecond) {
     const minutes = parseInt((totalSecond % 3600) / 60)
     const seconds = parseInt((totalSecond % 3600) % 60)
 
-    let convert = `${hours}:${minutes}:${seconds}`
-    timerDetailsTime.textContent = convert
+    return convert = `${hours}:${minutes}:${seconds}`
 }
 
 timerInput.addEventListener('input', () => {
     TimeValue = timerInput.value
-    timeValue(TimeValue);
+    // timeValue(TimeValue);
+    convertSecond(TimeValue);
+    timerDetailsTime.textContent = convertTime(totalSecond);
 })
 
 startButton.addEventListener('click', () => {
+    if (!TimeValue || totalSecond <= 0) {
+        timerDetailsTime.textContent = "Please enter a valid time";
+        return;
+    }
 
-    if (TimeValue === '' || TimeValue === undefined) {
-        timerDetailsTime.textContent = "Please enter a time";
-    } else {
+    // if (setIntervalTime) clearInterval(setIntervalTime);
 
-        convertSecond(TimeValue)
-
-        if (totalSecond === 0) {
-            timerDetailsTime.textContent = "Time Complete"
-            clearInterval(setIntervalTime)
-        } else if (totalSecond < 0) {
-            timerDetailsTime.textContent = "Enter Wrong Time."
-        } else {
-            setIntervalTime = setInterval(() => {
-                totalSecond -= 1
-                convertTime(totalSecond)
-            }, 1000)
-            startButton.disabled = true;
+    setIntervalTime = setInterval(() => {
+        if (totalSecond <= 0) {
+            clearInterval(setIntervalTime);
+            timerDetailsTime.textContent = "Time's up!";
+            return;
         }
 
-    }
-})
+        totalSecond -= 1;
+        timerDetailsTime.textContent = convertTime(totalSecond);
+    }, 1000);
+    startButton.disabled = true
+});
 
 pauseButton.addEventListener('click', () => {
     if (pauseButton.value === 'Pause') {
@@ -71,16 +69,19 @@ pauseButton.addEventListener('click', () => {
         pauseButton.value = 'Resume'
 
     } else {
-        const resumeTime = timerDetailsTime.textContent
-
-        convertSecond(resumeTime)
-
         setIntervalTime = setInterval(() => {
-            totalSecond -= 1
-            convertTime(totalSecond)
-        }, 1000)
 
-        pauseButton.value = 'Pause'
+            if (totalSecond <= 0) {
+                clearInterval(setIntervalTime);
+                timerDetailsTime.textContent = "Time's up!";
+                return;
+            }
+
+            totalSecond -= 1;
+            timerDetailsTime.textContent = convertTime(totalSecond);
+        }, 1000);
+
+        pauseButton.value = 'Pause';
     }
 })
 

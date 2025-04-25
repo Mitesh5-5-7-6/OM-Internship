@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Quiz Questions</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Create New Quiz</h1>
+        </header>
+
+        <main>
+            <form id="quizCreationForm">
+                <div class="form-group">
+                    <label for="quizTitle">Quiz Title:</label>
+                    <input type="text" id="quizTitle" name="quizTitle" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="quizDescription">Quiz Description (optional):</label>
+                    <textarea id="quizDescription" name="quizDescription" rows="3"></textarea>
+                </div>
+
+                <h2>Questions</h2>
+                <div id="questionsContainer">
+                    <!-- Questions will be added here dynamically -->
+                    <div class="no-questions-message">No questions added yet. Click "Add Question" below to start.</div>
+                </div>
+
+                <div class="button-container">
+                    <button type="button" id="addQuestionBtn" class="btn secondary-btn">Add Question</button>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" id="publishQuizBtn" class="btn primary-btn">Publish Quiz</button>
+                    <button type="button" id="cancelBtn" class="btn outline-btn">Cancel</button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <!-- Question Type Template (hidden) -->
+    <template id="questionTemplate">
+        <div class="question-card">
+            <div class="question-header">
+                <h3>Question <span class="question-number">1</span></h3>
+                <button type="button" class="delete-question-btn">×</button>
+            </div>
+
+            <div class="form-group">
+                <label for="questionText">Question Text:</label>
+                <textarea class="question-text" name="questionText" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="questionPoints">Points:</label>
+                <input type="number" class="question-points" name="questionPoints" min="1" value="1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="questionType">Answer Type:</label>
+                <select class="question-type" name="questionType" required>
+                    <option value="short">Short Answer</option>
+                    <option value="long">Long Answer</option>
+                    <option value="radio">Multiple Choice (Single)</option>
+                    <option value="checkbox">Multiple Choice (Multiple)</option>
+                </select>
+            </div>
+
+            <div class="answer-options-container" style="display: none;">
+                <h4>Answer Options</h4>
+                <div class="answer-options">
+                    <!-- Options will be added here dynamically -->
+                </div>
+                <button type="button" class="add-option-btn">Add Option</button>
+            </div>
+
+            <div class="correct-answer-container">
+                <h4>Correct Answer</h4>
+                <div class="form-group correct-answer-input">
+                    <textarea class="correct-answer" name="correctAnswer" placeholder="Enter the correct answer here"
+                        required></textarea>
+                </div>
+                <!-- For radio/checkbox, correct answers are selected from the options -->
+            </div>
+        </div>
+    </template>
+
+    <!-- Option Template for Multiple Choice Questions (hidden) -->
+    <template id="optionTemplate">
+        <div class="option-group">
+            <input type="text" class="option-text" placeholder="Enter option text" required>
+            <div class="option-controls">
+                <label class="correct-option-label">
+                    <input type="checkbox" class="correct-option-checkbox">
+                    Correct
+                </label>
+                <button type="button" class="delete-option-btn">×</button>
+            </div>
+        </div>
+    </template>
+
+    <script src="add-question-script.js"></script>
+</body>
+
+</html>

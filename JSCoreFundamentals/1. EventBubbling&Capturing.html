@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Bubbling and Capturing</title>
+
+    <style>
+        div {
+            min-width: 100px;
+            min-height: 100px;
+            padding: 30px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    Event Bubbling and Capturing (trickling down)
+
+    <div id="grandparent">
+        <div id="parent">
+            <div id="child"></div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector("#grandparent").addEventListener('click', (e) => {
+            console.log("GrandParent clicked");
+            // e.stopPropagation();
+        }, true) // bubbling
+        // true means capturing down, false means bubbling up (by default false)
+
+        document.querySelector("#parent").addEventListener('click', (e) => {
+            console.log("Parent clicked");
+        }, true) // bubbling
+
+        document.querySelector("#child").addEventListener('click', () => {
+            console.log("Child clicked");
+        }, true) // capturing 
+    </script>
+</body>
+
+</html>
