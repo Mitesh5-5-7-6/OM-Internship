@@ -1,0 +1,33 @@
+<app-header />
+
+<main>
+    <ul id="users">
+        <!-- tarck unique id -->
+        <!-- If you don’t use track user.id: -->
+        <!-- Angular tracks items by reference, and if the array changes (even if the items are the same but new objects), it re-renders the entire list. -->
+
+        <!-- @for loop -->
+        @for (user of users; track user.id){
+        <li>
+            <app-user [user]="user" [selected]="user.id === selectedUserId" (select)="onSelectUser($event)" />
+        </li>
+        }
+
+        <!-- ngFor is older version in use -->
+        <!-- <li *ngFor="let user of users">
+            <app-user [user]="user" (select)="onSelectUser($event)" />
+        </li> -->
+    </ul>
+
+    @if (selectedUser){
+    <app-tasks [userId]="selectedUser.id" [name]="selectedUser.name" />
+    }@else{
+    <p id="fallback">Select a user to see their tasks!</p>
+    }
+
+    <!-- ngIf is older version in use -->
+    <!-- <app-tasks *ngIf="selectedUser; else fallback" [name]="selectedUser!.name" />
+    <ng-template #fallback>
+        <p id="fallback">Select a user to see their tasks!</p>
+    </ng-template> -->
+</main>

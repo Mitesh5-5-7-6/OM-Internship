@@ -1,0 +1,61 @@
+Angular Component Lifecycle
+
+Chart:
+---------------------------------------------------------
+|   ngOnChanges   |  Called when input properties change |
+---------------------------------------------------------
+          |
+          v
+---------------------------------------------------------
+|    ngOnInit     |  Called once after first ngOnChanges |
+---------------------------------------------------------
+          |
+          v
+---------------------------------------------------------
+|   ngDoCheck     |  Called during every change detection|
+---------------------------------------------------------
+          |
+          v
+---------------------------------------------------------
+| ngAfterContentInit | Called after content projected in |
+---------------------------------------------------------
+          |
+          v
+---------------------------------------------------------
+| ngAfterContentChecked | After every check of content   |
+---------------------------------------------------------
+          |
+          v
+---------------------------------------------------------
+| ngAfterViewInit | Called after component's view init   |
+---------------------------------------------------------
+          |
+          v
+---------------------------------------------------------
+| ngAfterViewChecked | After every check of component view|
+---------------------------------------------------------
+          |
+          v
+---------------------------------------------------------
+|   ngOnDestroy   |  Called just before component destroy|
+---------------------------------------------------------
+
+Summary:
+- ngOnChanges: Responds to input property changes.
+- ngOnInit: Initialization logic.
+- ngDoCheck: Custom change detection.
+- ngAfterContentInit/Checked: Projected content hooks.
+- ngAfterViewInit/Checked: Component view hooks.
+- ngOnDestroy: Cleanup before destruction.
+
+
+Creation -> constructor : page render then run
+Change Detection -> ngOnInit : component Initializ then run ngOnInit
+                -> ngOnChanges :  run every time the input have change.
+
+Rendering -> child value change (DOM update) and parent component me detect then use
+    afterNextRendering : runs once the next time that all component have been rendered the DOM
+    afterRender : runs every time all components have been rendered to the DOM.
+
+Destroy -> ngOnDestroy : component ui mathi hide then use ngOnDestroy
+like counter != 5 then not show Hello text

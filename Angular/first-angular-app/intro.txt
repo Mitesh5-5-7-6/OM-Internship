@@ -1,0 +1,67 @@
+Decorators like @Component are used by Angular to add metadata & configuration to classes
+
+make moreproperties(and methods) as private, public and protected.
+
+Component in selector name write app-header, app-root,... best case otherwise you write only header name then html are override beacase header name property already exits.
+
+Angular CLI ( command Line Interface ) : It's help to make components, module,etc.. generate some code
+
+// standalone
+Angular development more flexible, like React-style modular components
+Helps with lazy loading and simpler architecture
+
+// styles
+Add multiple styles like [' ', ' ']
+add in angular.json file 
+"assets": [
+  "src/assets",
+  {
+    "glob": "**/*",
+    "input": "public"
+  }
+],
+
+-----> both are work for updating state.
+
+// zone.js
+zone.js are change content then automaticaly update ui
+supporte since Angular 2
+-> zone.js tracks when async events happen and tells Angular to update the DOM.
+-> this.avatar
+-> Full change detection tree
+
+setTimeout(() => {
+  this.count++;
+  // zone.js sees this and triggers change detection
+}, 1000);
+
+
+
+
+// signals
+requires usage of special 'signal instructions & code
+supporte since Angular 16
+-> When a signal is updated, Angular knows exactly what depends on it and only re-renders that part of the DOM.
+-> this.avatar()
+-> Fine-grained reactivity (faster updates)
+
+
+
+  // use signal
+  imagePath = computed(() => 'assets/users/' + this.selectedUser().avatar);
+  // use zone.js
+  // get imagePath() {
+  //   return `assets/users/${this.selectedUser.avatar}`;
+  // }
+
+// use zone
+@Input({ required: true }) avatar?: string;
+@Input({ required: true }) name?: string;
+ 
+// use signal
+avatar = input.required<string>();
+name = input.required<string>();
+
+
+// Computed signals
+-> read only but 

@@ -1,0 +1,30 @@
+<h2>Switch Case</h2>
+
+<button (click)="handleChangeColor('Red')">Red</button>
+<button (click)="handleChangeColor('Blue')">Blue</button>
+<button (click)="handleChangeColor('Green')">Green</button>
+<button (click)="handleChangeColor('Yellow')">Yellow</button>
+
+
+@switch(color){
+@case('Red'){
+<h1 style="background-color: red;">{{color}} Color</h1>
+}
+@case('Blue'){
+<h1 style="background-color: blue;">{{color}} Color</h1>
+}
+@case('Green'){
+<h1 style="background-color: green;">{{color}} Color</h1>
+}@case('Yellow'){
+<h1 style="background-color: yellow;">{{color}} Color</h1>
+}
+@default {
+<h1 style="background-color: aquamarine;">Default Color</h1>
+}
+}
+
+<input #changeColorValue type="text" name="colorChaneg" placeholder="Enter Color"
+    (input)="getChangeColor(changeColorValue.value)">
+
+<h1 class="bg-[#000000]">Helo</h1>
+<p class="bg-[{{changeColor}}]">{{changeColor}}</p>

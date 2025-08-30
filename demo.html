@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Event Management Wireframes</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(to right, #ff4d5a, #ff8a3d);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            opacity: 1;
+            color: #ff4d5a;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            background: linear-gradient(to right, #ffffff, #ff8a3d);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            opacity: 0.8;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .cta-button {
+            background: linear-gradient(to right, #ff4d5a, #ff8a3d);
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(255, 77, 90, 0.3);
+        }
+
+        /* Featured Events Section */
+        .featured-events {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            text-align: center;
+            background: linear-gradient(to right, #ffffff, #ff8a3d);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .event-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .event-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .event-image {
+            width: 100%;
+            height: 200px;
+            background-color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-date {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .event-content {
+            padding: 20px;
+        }
+
+        .event-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .event-description {
+            opacity: 0.7;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .event-details {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .event-details i {
+            margin-right: 10px;
+            color: #ff4d5a;
+        }
+
+        .event-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: transparent;
+            border: 1px solid #ff4d5a;
+            color: #ff4d5a;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .event-button:hover {
+            background: #ff4d5a;
+            color: white;
+        }
+
+        /* Search Section */
+        .search-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, rgba(15, 15, 15, 0.8), rgba(30, 30, 30, 0.8));
+            border-radius: 20px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .search-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .search-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+
+        .search-form {
+            display: flex;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 30px 0 0 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .search-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 0 30px 30px 0;
+            background: linear-gradient(to right, #ff4d5a, #ff8a3d);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .search-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .filter-button {
+            padding: 8px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            background: transparent;
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-button:hover,
+        .filter-button.active {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #ff4d5a;
+        }
+
+        /* Categories Section */
+        .categories {
+            padding: 100px 0;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ff4d5a;
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .category-count {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Calendar Section */
+        .calendar-section {
+            padding: 100px 0;
+        }
+
+        .calendar-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .calendar-title {
+            font-size: 1.5rem;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .calendar-nav-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-nav-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .calendar-day-name {
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1/1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-day:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .calendar-day.has-event {
+            border: 1px solid #ff4d5a;
+        }
+
+        .calendar-day.active {
+            background: linear-gradient(to bottom right, #ff4d5a, #ff8a3d);
+        }
+
+        .day-number {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .day-event-indicator {
+            width: 6px;
+            height: 6px;
+            background: #ff4d5a;
+            border-radius: 50%;
+            margin-top: 5px;
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            padding: 100px 0;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .newsletter-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .newsletter-subtitle {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            opacity: 0.8;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 30px 0 0 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .newsletter-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 0 30px 30px 0;
+            background: linear-gradient(to right, #ff4d5a, #ff8a3d);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            padding: 50px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 50px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #ff4d5a;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ff4d5a;
+        }
+
+        .footer-bottom {
+            margin-top: 50px;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .search-input,
+            .search-button {
+                border-radius: 30px;
+                width: 100%;
+            }
+
+            .search-button {
+                margin-top: 10px;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-input,
+            .newsletter-button {
+                border-radius: 30px;
+                width: 100%;
+            }
+
+            .newsletter-button {
+                margin-top: 10px;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        /* Description Tabs */
+        .description-tabs {
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-top: 100px;
+        }
+
+        .tabs-header {
+            display: flex;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            opacity: 1;
+            color: #ff4d5a;
+            border-bottom: 2px solid #ff4d5a;
+        }
+
+        .tab-content {
+            display: none;
+            line-height: 1.6;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #ff4d5a;
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .loader-circle {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #ff4d5a;
+            border-radius: 50%;
+            animation: spin 1s infinite linear;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loader -->
+    <div class="loader">
+        <div class="loader-circle"></div>
+    </div>
+
+    <!-- Header -->
+    <div class="container">
+        <header>
+            <div class="logo">EventFlow</div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Events</a></li>
+                    <li><a href="#">Categories</a></li>
+                    <li><a href="#">Calendar</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-content">
+            <h1 class="hero-title">Discover Extraordinary Events</h1>
+            <p class="hero-subtitle">Find and attend the most exciting events happening around you.</p>
+            <button class="cta-button">Explore Events</button>
+        </div>
+    </section>
+
+    <!-- Featured Events -->
+    <section class="featured-events">
+        <div class="container">
+            <h2 class="section-title">Featured Events</h2>
+            <div class="events-grid">
+                <!-- Event Card 1 -->
+                <div class="event-card">
+                    <div class="event-image">
+                        <div class="event-date">May 25, 2025</div>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">Tech Conference 2025</h3>
+                        <p class="event-description">Join the biggest tech conference with speakers from leading tech
+                            companies worldwide.</p>
+                        <div class="event-details">
+                            <i>📍</i> San Francisco, CA
+                        </div>
+                        <div class="event-details">
+                            <i>🕒</i> 9:00 AM - 5:00 PM
+                        </div>
+                        <a href="#" class="event-button">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Event Card 2 -->
+                <div class="event-card">
+                    <div class="event-image">
+                        <div class="event-date">June 10, 2025</div>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">Music Festival</h3>
+                        <p class="event-description">Experience three days of non-stop music from your favorite artists
+                            and bands.</p>
+                        <div class="event-details">
+                            <i>📍</i> Austin, TX
+                        </div>
+                        <div class="event-details">
+                            <i>🕒</i> 12:00 PM - 12:00 AM
+                        </div>
+                        <a href="#" class="event-button">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Event Card 3 -->
+                <div class="event-card">
+                    <div class="event-image">
+                        <div class="event-date">July 5, 2025</div>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">Food & Wine Festival</h3>
+                        <p class="event-description">Taste exquisite dishes and wines from renowned chefs and wineries
+                            from all over the world.</p>
+                        <div class="event-details">
+                            <i>📍</i> Napa Valley, CA
+                        </div>
+                        <div class="event-details">
+                            <i>🕒</i> 11:00 AM - 8:00 PM
+                        </div>
+                        <a href="#" class="event-button">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div id="search-background" class="search-background"></div>
+        <div class="container">
+            <div class="search-content">
+                <h2 class="search-title">Find Your Next Experience</h2>
+                <form class="search-form">
+                    <input type="text" class="search-input" placeholder="Search events, locations, or categories...">
+                    <button type="submit" class="search-button">Search</button>
+                </form>
+                <div class="search-filters">
+                    <button class="filter-button active">All Events</button>
+                    <button class="filter-button">Concerts</button>
+                    <button class="filter-button">Conferences</button>
+                    <button class="filter-button">Exhibitions</button>
+                    <button class="filter-button">Workshops</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Browse by Category</h2>
+            <div class="categories-grid">
+                <!-- Category 1 -->
+                <div class="category-card">
+                    <div class="category-icon">🎵</div>
+                    <h3 class="category-title">Music</h3>
+                    <p class="category-count">253 Events</p>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="category-card">
+                    <div class="category-icon">💻</div>
+                    <h3 class="category-title">Technology</h3>
+                    <p class="category-count">142 Events</p>
+                </div>
+
+                <!-- Category 3 -->
+                <div class="category-card">
+                    <div class="category-icon">🎭</div>
+                    <h3 class="category-title">Arts & Theater</h3>
+                    <p class="category-count">87 Events</p>
+                </div>
+
+                <!-- Category 4 -->
+                <div class="category-card">
+                    <div class="category-icon">🏃</div>
+                    <h3 class="category-title">Sports</h3>
+                    <p class="category-count">119 Events</p>
+                </div>
+
+                <!-- Category 5 -->
+                <div class="category-card">
+                    <div class="category-icon">🍴</div>
+                    <h3 class="category-title">Food & Drink</h3>
+                    <p class="category-count">95 Events</p>
+                </div>
+
+                <!-- Category 6 -->
+                <div class="category-card">
+                    <div class="category-icon">🧠</div>
+                    <h3 class="category-title">Education</h3>
+                    <p class="category-count">76 Events</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calendar Section -->
+    <section class="calendar-section">
+        <div class="container">
+            <h2 class="section-title">Event Calendar</h2>
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <h3 class="calendar-title">May 2025</h3>
+                    <div class="calendar-nav">
+                        <button class="calendar-nav-button">←</button>
+                        <button class="calendar-nav-button">→</button>
+                    </div>
+                </div>
+                <div class="calendar-grid">
+                    <!-- Day Names -->
+                    <div class="calendar-day-name">Sun</div>
+                    <div class="calendar-day-name">Mon</div>
+                    <div class="calendar-day-name">Tue</div>
+                    <div class="calendar-day-name">Wed</div>
+                    <div class="calendar-day-name">Thu</div>
+                    <div class="calendar-day-name">Fri</div>
+                    <div class="calendar-day-name">Sat</div>
+
+                    <!-- Days (First Row) -->
+                    <div class="calendar-day">
+                        <span class="day-number">1</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">2</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">3</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">4</span>
+                    </div>
+                    <div class="calendar-day has-event">
+                        <span class="day-number">5</span>
+                        <span class="day-event-indicator"></span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">6</span>
+                    </div>
+                    <div class="calendar-day has-event">
+                        <span class="day-number">7</span>
+                        <span class="day-event-indicator"></span>
+                    </div>
+
+                    <!-- Days (Second Row) -->
+                    <div class="calendar-day">
+                        <span class="day-number">8</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">9</span>
+                    </div>
+                    <div class="calendar-day has-event">
+                        <span class="day-number">10</span>
+                        <span class="day-event-indicator"></span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">11</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">12</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">13</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">14</span>
+                    </div>
+
+                    <!-- More days would continue here -->
+                    <!-- Third row -->
+                    <div class="calendar-day">
+                        <span class="day-number">15</span>
+                    </div>
+                    <div class="calendar-day has-event">
+                        <span class="day-number">16</span>
+                        <span class="day-event-indicator"></span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">17</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">18</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">19</span>
+                    </div>
+                    <div class="calendar-day has-event">
+                        <span class="day-number">20</span>
+                        <span class="day-event-indicator"></span>
+                    </div>
+                    <div class="calendar-day active">
+                        <span class="day-number">21</span>
+                    </div>
+
+                    <!-- Fourth row -->
+                    <div class="calendar-day">
+                        <span class="day-number">22</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">23</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">24</span>
+                    </div>
+                    <div class="calendar-day has-event">
+                        <span class="day-number">25</span>
+                        <span class="day-event-indicator"></span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">26</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">27</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">28</span>
+                    </div>
+
+                    <!-- Fifth row -->
+                    <div class="calendar-day">
+                        <span class="day-number">29</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">30</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number
+">31</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number">1</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number
+">2</span>
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number
+">3</span>
+
+                    </div>
+                    <div class="calendar-day">
+                        <span class="day-number
+">4</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <h2 class="newsletter-title">Subscribe to Our Newsletter</h2>
+            <p class="newsletter-subtitle">Stay updated with the latest events and offers.</p>
+            <form class="newsletter-form">
+                <input type="email" class="newsletter-input" placeholder="Enter your email address">
+                <button type="submit" class="newsletter-button">Subscribe</button>
+            </form>
+        </div>
+    </section>
+    <!-- Description Tabs -->
+    <section class="description-tabs">
+        <div class="tabs-header">
+            <button class="tab-button
+                active">Overview</button>
+            <button class="tab-button
+                ">Details</button>
+            <button class="tab-button
+                ">Location</button>
+            <button class="tab-button
+                ">Contact</button>
+        </div>
+        <div class="tab-content
+            active">
+            <h3 class="tab-title">Overview</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua.</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur.</p>
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.</p>
+
+        </div>
+        <div class="tab-content">
+            <h3 class="tab-title">Details</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua.</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur.</p>
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.</p>
+        </div>
+        <div class="tab-content">
+            <h3 class="tab-title">Location</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua.</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur.</p>
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.</p>
+        </div>
+        <div class="tab-content">
+            <h3 class="tab-title">Contact</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua.</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur.</p>
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                laborum.</p>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>About Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Follow Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2025 EventFlow. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Loader Animation
+        window.addEventListener('load', function () {
+            const loader = document.querySelector('.loader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.visibility = 'hidden';
+            }, 1000);
+        });
+
+        // Hero Section Canvas Animation
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            requestAnimationFrame(draw);
+        }
+        draw();
+        // Search Section Background Animation
+        const searchBackground = document.getElementById('search-background');
+        searchBackground.style.background = 'linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3))';
+        searchBackground.style.opacity = '0.5';
+        searchBackground.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => {
+            searchBackground.style.opacity = '1';
+        }, 1000);
+        // Fade-in Animation
+        const fadeInElements = document.querySelectorAll('.fade-in');
+        fadeInElements.forEach((element) => {
+            element.classList.add('fade-in');
+        });
+        // Tabs Functionality
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabButtons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach((btn) => btn.classList.remove('active'));
+                tabContents.forEach((content) => content.classList.remove('active'));
+                button.classList.add('active');
+                tabContents[index].classList.add('active');
+            });
+        });
+        // Event Card Hover Effect
+        const eventCards = document.querySelectorAll('.event-card');
+        eventCards.forEach((card) => {
+            card.addEventListener('mouseover', () => {
+                card.style.transform = 'scale(1.05)';
+            });
+            card.addEventListener('mouseout', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+        // Search Filters Functionality
+        const filterButtons = document.querySelectorAll('.filter-button');
+        filterButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                filterButtons.forEach((btn) => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+        // Calendar Navigation
+        const calendarNavButtons = document.querySelectorAll('.calendar-nav-button');
+        calendarNavButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                // Logic to navigate the calendar
+                alert('Calendar navigation not implemented yet.');
+            });
+        });
+        // Newsletter Form Submission
+        // const newsletterForm = document.querySelector('.newsletter-form');
+        // newsletterForm.addEventListener('submit', (e) => {
+        //     e.preventDefault();
+        //     const emailInput = document.querySelector('.newsletter-input');
+        //     if (emailInput.value) {
+        //         alert(`Thank you for subscribing with ${emailInput.value}`);
+        //         emailInput.value = '';
+        //     } else {
+        //         alert('Please enter a valid email address.');
+        //     }
+        // });
+        // document.addEventListener('DOMContentLoaded', () => {
+        const newsletterForm = document.querySelector('.newsletter-form');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const emailInput = document.querySelector('.newsletter-input');
+                if (emailInput.value) {
+                    alert(`Thank you for subscribing with ${emailInput.value}`);
+                    emailInput.value = '';
+                } else {
+                    alert('Please enter a valid email address.');
+                }
+            });
+        }
+        // });
+        // Hero Section Animation
+        const heroTitle = document.querySelector('.hero-title');
+        const heroSubtitle = document.querySelector('.hero-subtitle');
+        const ctaButton = document.querySelector('.cta-button');
+        setTimeout(() => {
+            heroTitle.classList.add('fade-in');
+            heroSubtitle.classList.add('fade-in');
+            ctaButton.classList.add('fade-in');
+        }, 1000);
+        // Search Section Animation
+        const searchTitle = document.querySelector('.search-title');
+        const searchForm = document.querySelector('.search-form');
+        const searchFilters = document.querySelector('.search-filters');
+        setTimeout(() => {
+            searchTitle.classList.add('fade-in');
+            searchForm.classList.add('fade-in');
+            searchFilters.classList.add('fade-in');
+        }, 1500);
+        // Categories Animation
+        const categories = document.querySelector('.categories');
+        const categoriesGrid = document.querySelector('.categories-grid');
+        setTimeout(() => {
+            categories.classList.add('fade-in');
+            categoriesGrid.classList.add('fade-in');
+        }, 2000);
+        // Calendar Animation
+        const calendarSection = document.querySelector('.calendar-section');
+        const calendarContainer = document.querySelector('.calendar-container');
+        setTimeout(() => {
+            calendarSection.classList.add('fade-in');
+            calendarContainer.classList.add('fade-in');
+        }, 2500);
+        // Newsletter Animation
+        const newsletterSection = document.querySelector('.newsletter');
+        const newsletterTitle = document.querySelector('.newsletter-title');
+        const newsletterSubtitle = document.querySelector('.newsletter-subtitle');
+        // const newsletterForm = document.querySelector('.newsletter-form');
+        setTimeout(() => {
+            newsletterSection.classList.add('fade-in');
+            newsletterTitle.classList.add('fade-in');
+            newsletterSubtitle.classList.add('fade-in');
+            newsletterForm.classList.add('fade-in');
+        }, 3000);
+        // Footer Animation
+        const footer = document.querySelector('footer');
+        const footerGrid = document.querySelector('.footer-grid');
+        const footerBottom = document.querySelector('.footer-bottom');
+        setTimeout(() => {
+            footer.classList.add('fade-in');
+            footerGrid.classList.add('fade-in');
+            footerBottom.classList.add('fade-in');
+        }, 3500);
+        // Responsive Design
+        function adjustLayout() {
+            const windowWidth = window.innerWidth;
+            if (windowWidth < 768) {
+                document.body.classList.add('mobile');
+            } else {
+                document.body.classList.remove('mobile');
+            }
+        }
+        window.addEventListener('resize', adjustLayout);
+        adjustLayout();
+    </script>
+</body>
+
+</html>
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+</html> -->

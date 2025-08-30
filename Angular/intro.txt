@@ -1,0 +1,10 @@
+Angular is a frontend JaaScript framework -> It helps with building interactive, modern web user interfaces.
+It's also a collection of tools & features -> CLI, Debugging Tools, IDE plugins.
+
+why components : Build a component once and re-use it as often as needed.
+-> Break up complex application into simple building blocks.
+
+why a framework : write declarative code, separation of concerns via components, oop concepts & principles, use typescript.
+
+first install @angular/cli because this are Quickly generates boilerplate code like component, services, modules like,...
+and use ng command for generates this boilerplates code.

@@ -1,0 +1,30 @@
+<h2>If-Else | Control Flow</h2>
+
+<div style="display: flex;">
+
+    <div style="display: flex; flex-direction: column;">
+        <button (click)="handleBtn('Hide')">Hide</button>
+        <button (click)="handleBtn('Show')">Show</button>
+        <button (click)="handleToggle()">Toggle</button>
+        <button (click)="handleToggle()">{{display? 'Hide': 'Show'}}</button>
+    </div>
+
+    @if(display){
+    <div style="background-color: chartreuse; height: 200px; width: 200px;">
+        true
+    </div>
+    }
+
+    <!-- <div style="width: 50%; margin-left: 20px;">
+        <hr>
+    </div> -->
+
+    <button (click)="toggleDivs()">Show {{displayDiv ? "Orange Color" : "Skin Color"}} </button>
+    @if(displayDiv){
+    <div style="background-color: burlywood; color:rgb(104, 104, 239); width: 100px; height: 100px;">
+    </div>
+    } @else{
+    <div style="background-color: rgb(209, 151, 74); color:rgb(49, 49, 164); width: 100px; height: 100px;">
+    </div>
+    }
+</div>
