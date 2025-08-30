@@ -40,12 +40,29 @@ const users =
     name: "Mitesh",
     age: 22
 }
-
+users.abc = "hjvb"
 function userCredintial({ name, age }) {
     console.log(name)
     console.log(age)
 }
+
+console.log("users",users)
 userCredintial(users)
+
+const arr=[1,3,2,5,67];
+const out = arr.reduce(function(acc, curr){
+    console.log("acc:",acc,"curr:", curr)
+    acc = acc + curr;
+    return acc;
+},0)
+
+const outer = arr.reduce(function(acc, curr){
+    console.log("acc:",acc,"curr:", curr)
+    return acc;
+},0)
+
+console.log("out",out);
+console.log("out",outer);
 
 
 // Callback function : second function pass as a argument in first function is called callback function
@@ -56,6 +73,31 @@ function first(names) {
     names('Alex')
 }
 first(second)
+
+// for(let i=1; i<= 10; i++){
+//     let random = Math.floor(Math.random() * 21);
+//     setTimeout(function cbT(){
+//         console.log(i,random);
+//     }, random*1000)
+// }
+
+
+
+// for(let i=1; i<= 10; i++){
+//     let random = Math.floor(Math.random() * 21);
+//     setTimeout(function cbT(){
+//         console.log("second loop",i,random);
+//     }, random*1000)
+// }
+setTimeout(function cbE(){
+        console.log("Hello");
+    }, 5000)
+
+for(let i=1; i<= 10; i++){
+    setTimeout(function cbT(){
+        console.log(i);
+    }, i*1000)
+}
 
 
 const perosn1 = new Set(['1', '2', '3']);

@@ -1,0 +1,19 @@
+<!-- <form (ngSubmit)="onSubmit(titleInput, requestInput, ticketForm)" #ticketForm> -->
+<!-- <form (ngSubmit)="onSubmit(titleInput.value, requestInput.value)" #ticketForm> -->
+<form (ngSubmit)="onSubmit()" #ticketForm> <!-- use two-way data binding -->
+    <h4>New Ticket</h4>
+    <app-control label="Title">
+        <input name="title" id="title" #titleInput #input [(ngModel)]="enteredTitle" />
+    </app-control>
+    <app-control label="Request">
+        <textarea name="request" id="request" rows="3" #requestInput #input [(ngModel)]="enteredText"></textarea>
+    </app-control>
+    <p>
+        <!-- <app-button btnName="Submit" /> -->
+        <!-- <button appButton btnName="Submit"></button> -->
+        <button appButton type="submit" [disabled]="!titleInput.value || !requestInput.value">
+            Submit
+            <span ngProjectAs="icon">⌲</span>
+        </button>
+    </p>
+</form>

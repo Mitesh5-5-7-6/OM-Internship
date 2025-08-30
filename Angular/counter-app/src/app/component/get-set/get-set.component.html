@@ -1,0 +1,8 @@
+<h1>Get and Set Input field value</h1>
+<h2>{{firstname}} - {{lastname}} : {{fullname}}</h2>
+<input #firstnameInput value="{{firstname}}" (input)="getUserFirstName(firstnameInput.value)" type="text"
+    placeholder="enter user first name" />
+<input #lastnameInput value="{{lastname}}" (input)="getUserLastName(lastnameInput.value)" type="text"
+    placeholder="enter user last name" />
+<br>
+<button (click)="setUserFullName()">Set User Full Name</button>

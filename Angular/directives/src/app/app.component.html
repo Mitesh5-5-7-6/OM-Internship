@@ -1,0 +1,45 @@
+<h1>Directives Deep Dive</h1>
+<ul>
+  <li>Directives vs Components</li>
+  <li>Attribute Directives</li>
+  <li>Structural Directives</li>
+  <li>Built-in Directives</li>
+  <li>Building Custom Directives</li>
+</ul>
+
+<h2>
+  Directives are 'enhancements' for elements (built-in ones or components)
+</h2>
+<p>
+  Directive is a class that adds additional behavior to elements in your
+  application.
+  <br />
+  <strong>angular that help you to provide more power to DOM elements</strong>
+  if-else, for loop, add style, ngIf, ngFor, ngStyle, ngSwitch, etc.
+</p>
+<br />
+<h2>Component Directives</h2>
+<p>most common type of directive</p>
+<p>Used in Component template file</p>
+<br />
+<h2>Structural Directives</h2>
+<p>*ngIf,*ngFor,... *</p>
+<p>Change the DOM Structural by adding, removing,..</p>
+<p>Ex : toggle, add btn,..</p>
+<br />
+<h2>Attribute Directives</h2>
+<p>Modify the appearance or behavior of an existing element</p>
+<p>ngClass, ngStyle</p>
+
+<main>
+  <app-learning-resources />
+
+  <hr />
+
+  <app-auth />
+
+  <!-- @if (isAdmin()) {
+  <p>Only admins shold see this!</p>
+  } -->
+  <p userType="admin">Only admins shold see this!</p>
+</main>

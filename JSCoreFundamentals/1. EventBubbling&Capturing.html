@@ -29,12 +29,12 @@
         document.querySelector("#grandparent").addEventListener('click', (e) => {
             console.log("GrandParent clicked");
             // e.stopPropagation();
-        }, true) // bubbling
+        }, true)
         // true means capturing down, false means bubbling up (by default false)
 
         document.querySelector("#parent").addEventListener('click', (e) => {
             console.log("Parent clicked");
-        }, true) // bubbling
+        }, true)
 
         document.querySelector("#child").addEventListener('click', () => {
             console.log("Child clicked");

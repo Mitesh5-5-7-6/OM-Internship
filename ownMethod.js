@@ -13,32 +13,43 @@
 // person.name()
 // person.age()
 
-var pName = "Mitesh"
+var pName = "Mitesh";
 
 var person1 = {
-    personName: "Mitesh",
-    personAge: 22,
+  personName: "Mitesh",
+  personAge: 22,
 
-    pNames: function () {
-        console.log(`my p name is ${this.pName}`) // undefine
-        console.log(`my p name is ${window.pName}`) // Mitesh
-    },
+  pNames: function () {
+    console.log(`my p name is ${this.pName}`); // undefine
+    console.log(`my p name is ${window.pName}`); // Mitesh
+  },
 
-    name: function () {
-        console.log(`my name is ${this.personName}`)
-    },
-    age: function () {
-        console.log(`my age is ${this.personAge}`)
-    }
-}
+  name: function () {
+    console.log(`my name is ${this.personName}`);
+  },
+  age: function () {
+    console.log(`my age is ${this.personAge}`);
+  },
+};
 
-person1.pNames()
-person1.name()
-person1.age()
+person1.pNames();
+person1.name();
+person1.age();
 
 function abc() {
-    this.name = "Mitesh",
-        this.age = 23
+  (this.name = "Mitesh"), (this.age = 23);
 }
 const abcd = new abc();
-console.log(abcd.prototype)
+console.log(abcd.prototype);
+
+let b = 25;
+function a() {
+  b = 30;
+}
+
+function c() {
+  console.log(b);
+}
+
+a();
+c();

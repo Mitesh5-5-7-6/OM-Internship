@@ -1,0 +1,10 @@
+<h2>Events</h2>
+
+<button #nameValue name="login" (click)="handleName(nameValue.name, nameValue.type)">Name</button>
+
+<div #mouseValue (mouseenter)="handleMouseEnter(mouseValue.innerHTML)" (mouseleave)="handleMouseLeave()"
+    style="background-color: rgb(41, 83, 83); width: 100px; height: 100px;">
+    Mitesh
+</div>
+
+<p>{{ mouseEntered }}</p>

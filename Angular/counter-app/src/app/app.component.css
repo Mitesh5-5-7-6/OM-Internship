@@ -1,0 +1,56 @@
+h2{
+    background-color: cornflowerblue;
+}
+
+.count{
+    color: slateblue;
+}
+
+.btn{
+    width: 80px;
+    height: 30px;
+    border: 1px solid;
+    border-radius: 8px;
+    color: whitesmoke;
+}
+
+.btn-add{
+    background-color: darksalmon;
+    :hover{
+        background-color: rgb(250, 180, 140);
+    }
+}
+
+.btn-remove{
+    background-color: turquoise;
+    :hover{
+        background-color: rgb(80, 260, 220);
+    }
+}
+
+.btn-reset{
+    background-color: tomato;
+    :hover{
+        background-color: rgb(280, 120, 100);
+    }
+}
+
+.lifecycle-btns{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+    border: 2px solid #dad6dd;
+    padding: 1rem;
+    border-radius: 4px;
+    background-color: #dad6dd;
+    color: #212022;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-family: "Open Sans", sans-serif;
+}

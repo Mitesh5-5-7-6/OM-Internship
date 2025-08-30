@@ -1,0 +1,54 @@
+<h1>Counter App</h1>
+<div>
+  <h3 class="count">{{count}}</h3>
+  <div>
+    <button (click)="handleCounter('add')" class="btn btn-add">Add</button>
+    <button (click)="handleCounter('remove')" class="btn btn-remove">Remove</button>
+    <button (click)="handleCounter('reset')" class="btn btn-reset">Reset</button>
+  </div>
+</div>
+
+
+<div id="buttons" class="lifecycle-btns">
+  <button style="border: 1px solid black; padding: 4px;" (click)="onToggleLifecycleComponentVisibility()">
+    Toggle Lifecycle Component Visibility
+  </button>
+  <button style="border: 1px solid black; padding: 4px;" (click)="onChangeLifecycleInputText()">
+    Change Lifecycle Component Text
+  </button>
+</div>
+
+@if (lifecycleComponentIsVisible) {
+<app-lifecycle [text]="lifecycleInputText" />
+}
+
+<hr>
+<app-signals />
+<hr>
+<app-get-set />
+<hr>
+<app-profile />
+<hr>
+<app-switch />
+<hr>
+<app-loop />
+<hr>
+<app-for-loop-contextual-variables />
+<hr>
+<app-events />
+<hr>
+<app-computed-signal />
+
+<hr>
+<h2>custom-two-way-binding works!</h2>
+<div>
+  <p>
+    <label>Width</label>
+    <input type="number" step="1.0" [(ngModel)]="rectSize.width">
+  </p>
+  <p>
+    <label>Height</label>
+    <input type="number" step="1.0" [(ngModel)]="rectSize.height">
+  </p>
+</div>
+<app-custom-two-way-binding [(size)]="rectSize" />

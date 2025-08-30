@@ -1,0 +1,10 @@
+<h2>For Loops</h2>
+
+@for(user of users; track user){
+<p>{{user}}</p>
+}
+
+@for(student of students; track student.id){
+<p>{{student.id}}. {{student.name}} - {{student.email}}</p>
+<button (click)="getName(student.name)">Get Name</button>
+}
